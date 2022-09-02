@@ -164,5 +164,4 @@ cmake-build-debug/
 # Crashlytics plugin (for Android Studio and IntelliJ)
 .DS_Store
 .sass-cache
-
-
+dist
