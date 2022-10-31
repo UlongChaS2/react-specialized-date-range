@@ -9,10 +9,11 @@
     "jsx": "react",
     "module": "ESNext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "outDir": "dist",
     "sourceMap": true,
     "strict": true,
     "skipLibCheck": true,
-    "target": "es2016",
+    "target": "es2016"
   }
 }

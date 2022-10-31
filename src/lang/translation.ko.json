@@ -1,0 +1,27 @@
+{
+  "startDate": "시작일",
+  "endDate": "종료일",
+  "month": {
+    "January": "1월",
+    "February": "2월",
+    "March": "3월",
+    "April": "4월",
+    "May": "5월",
+    "June": "6월",
+    "July": "7월",
+    "August": "8월",
+    "September": "9월",
+    "October": "10월",
+    "November": "11월",
+    "December": "12월"
+  },
+  "weekDays": {
+    "Sunday": "일",
+    "Monday": "월",
+    "Tuesday": "화",
+    "Wednesday": "수",
+    "Thursday": "목",
+    "Friday": "금",
+    "Saturday": "토"
+  }
+}
