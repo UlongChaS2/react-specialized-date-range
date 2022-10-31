@@ -9,7 +9,6 @@ const defaultDateOption: IDate = {
   },
   year: new Date().getFullYear(),
   month: new Date().getMonth() + 1,
-  day: new Date().getDate(),
   today: todayDashFormat(),
   selectedDate: "",
 };
@@ -28,6 +27,7 @@ export const initialDateAction = {
   changeMonth(standard: string, index: number) {},
   changeYear(standard: string, year: number) {},
   changeDecade(standard: string, decade: number) {},
+  setSelectedDate(prev: any, value?: string[]) {},
 };
 
 export const initialDateOptionState = {
@@ -39,7 +39,8 @@ export const initialDateOptionState = {
   mode: "basic",
   placement: "bottom",
   format: "YYYY-MM-DD",
-  value: ["", ""],
+  value: ["2022-01-05", "2022-01-05"],
+  startDayOfWeek: "Sunday",
   onChange: () => {},
 };
 

@@ -4,7 +4,6 @@ export interface IDate {
   today: string | Date;
   year: number;
   month: number;
-  day: number;
   selectedDate: string;
 }
 
@@ -21,6 +20,7 @@ export interface ICalendarProps {
 
 export interface IDateInputProps extends ICalendarProps {
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+  value?: string;
 }
 
 export enum EUnit {

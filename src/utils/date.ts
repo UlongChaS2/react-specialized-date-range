@@ -85,7 +85,6 @@ export const onChangeDateByInput = (
     return {
       ...prevDate,
       [standard]: { ...prevDate[standard], selectedDate: "" },
-      [refer(standard)]: { ...prevDate[refer(standard)], selectedDate: "" },
     };
   }
 
@@ -110,4 +109,39 @@ export const onChangeMonth = (prevDate: IDate, index: number) => {
 
 export const onChangeYearOrDecade = (prevDate: IDate, year: number) => {
   return { ...prevDate, unit: prevDate.unit === EUnit.DECADE ? EUnit.YEAR : EUnit.MONTH, year };
+};
+
+export const setSelectDate = (prevDate: IDateContextValues, double: boolean, value: string[]) => {
+  if (double) {
+    return {
+      ...prevDate,
+      startDate: getDate(prevDate.single, value[0]),
+      endDate: getDate(prevDate.single, value[1]),
+    };
+  } else {
+    return {
+      ...prevDate,
+      single: getDate(prevDate.single, value[0]),
+    };
+  }
+};
+
+const getDate = (prev: any, value: string) => {
+  return {
+    ...prev,
+    selectedDate: value,
+    year: getYear(prev, value),
+    month: getMonth(prev, value),
+  };
+};
+
+const getYear = (prev: any, value: string) => {
+  if (!value) return prev.year;
+
+  return Number(value.split("-")[0]);
+};
+
+const getMonth = (prev: any, value: string) => {
+  if (!value) return prev.year;
+  return Number(value.split("-")[1]);
 };

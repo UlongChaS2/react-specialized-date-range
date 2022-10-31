@@ -5,7 +5,7 @@ import { IDateContextValues, IDatePickerContextValues } from "../@types/dateCont
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
-export default function DateInput({ standard, setIsActive }: IDateInputProps) {
+export default function DateInput({ standard, setIsActive, value }: IDateInputProps) {
   const { t } = useTranslation();
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
@@ -15,7 +15,13 @@ export default function DateInput({ standard, setIsActive }: IDateInputProps) {
   const [text, setText] = React.useState("");
 
   React.useEffect(() => {
-    date[standard] && setText(date[standard].selectedDate);
+    value && setText(value);
+  }, []);
+
+  React.useEffect(() => {
+    if (date[standard]) {
+      (date[standard].selectedDate || !value) && setText(date[standard].selectedDate);
+    }
   }, [date[standard] && date[standard].selectedDate]);
 
   const handleChangeDate = React.useCallback(

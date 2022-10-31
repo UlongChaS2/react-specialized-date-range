@@ -6,6 +6,7 @@ import {
   onChangeMonth,
   onChangeYearOrDecade,
   onChangeDateByInput,
+  setSelectDate,
 } from "../utils/date";
 import { IDateContextActions, IDateContextValues } from "../@types/dateContext";
 import { IDay } from "../@types/date";
@@ -54,6 +55,9 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
           ...prev,
           [standard]: onChangeYearOrDecade(prev[standard], decade),
         }));
+      },
+      setSelectedDate(double: boolean, value?: string[]) {
+        setDate((prev) => (value ? setSelectDate(prev, double, value) : prev));
       },
     }),
     []

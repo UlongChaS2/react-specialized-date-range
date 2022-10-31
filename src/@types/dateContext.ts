@@ -15,20 +15,23 @@ export interface IDateContextActions {
   changeMonth: (standard: string, index: number) => void;
   changeYear: (standard: string, year: number) => void;
   changeDecade: (standard: string, decade: number) => void;
+  setSelectedDate: (double: boolean, value?: string[]) => void;
 }
 
 export interface IDatePickerContextValues {
-  width?: string;
-  height?: string;
-  double?: boolean;
+  width: string;
+  height: string;
+  double: boolean;
+  startDayOfWeek: string;
+  disabledDates: string[] | null;
+  mode: string;
+  placement: string;
+  format: string;
   locale?: string;
-  startDayOfWeek?: string;
-  disabledDates?: string[] | null;
-  mode?: string;
-  placement?: string;
-  placeholder?: string;
+  placeholder: string;
   readOnly?: boolean;
-  format?: string;
+  value?: string[];
+  onChange: (e: any) => void;
 }
 
 export interface IDatePickerContextActions {

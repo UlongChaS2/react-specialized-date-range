@@ -11,16 +11,19 @@ import DateInput from "./DateInput";
 import { EMode, EStandard } from "../@types/date";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { IDatePickerContextValues } from "../@types/dateContext";
+import { useDateActionsContext } from "../hooks/useDateContext";
 
 export default function DatePickerWrapper(props: IDatePickerContextValues) {
   const { i18n } = useTranslation();
-  const actions = useDatePickerOptionActionsContext();
+  const optionActions = useDatePickerOptionActionsContext();
+  const dateActions = useDateActionsContext();
   const options = useDatePickerOptionValuesContext();
-  const { width, height, double, locale, mode, placement } = options;
+  const { width, height, double, locale, mode, placement, value } = options;
 
   React.useEffect(() => {
     locale && i18n.language !== locale && i18n.changeLanguage(locale);
-    actions.setInitOption(props);
+    dateActions.setSelectedDate(double, value);
+    optionActions.setInitOption(props);
   }, []);
 
   const { isActive, setIsActive, inputRef } = useOutsideClick();
