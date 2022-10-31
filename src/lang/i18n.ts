@@ -23,7 +23,7 @@ i18n
     resources: resources,
     lng: userLanguage || ELanguage.EN,
     fallbackLng: ELanguage.EN,
-    debug: true,
+    debug: false,
     interpolation: { escapeValue: false },
   });
 

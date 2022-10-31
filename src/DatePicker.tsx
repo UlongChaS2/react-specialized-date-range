@@ -3,7 +3,6 @@ import * as React from "react";
 import DatePickerWrapper from "./components/DatePickerWrapper";
 import DatePickerOptionProvider from "./context/DatePickerOptionProvider";
 import DateProvider from "./context/DateProvider";
-import { todayDashFormat } from "./utils/dateFormat";
 
 interface IAppProvideProps {
   contexts: React.FunctionComponent<any>[];

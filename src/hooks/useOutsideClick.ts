@@ -8,10 +8,8 @@ export const useOutsideClick = () => {
   const options = useDatePickerOptionValuesContext();
   const { mode } = options;
 
-  const onOutSideClick = React.useCallback((e) => {
-    if (inputRef.current && !inputRef.current.contains(e.target)) {
-      setIsActive(false);
-    }
+  const onOutSideClick = React.useCallback(({ target }: MouseEvent): void => {
+    inputRef.current && !inputRef.current.contains(target as Node) && setIsActive(false);
   }, []);
 
   React.useEffect(() => {
