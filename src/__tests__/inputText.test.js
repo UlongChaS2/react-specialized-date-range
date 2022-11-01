@@ -1,10 +1,8 @@
 import "@testing-library/jest-dom";
-
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import DateInput from "../components/DateInput";
 import CalendarDay from "../components/CalendarDay";
-import { EStandard } from "../@types/date";
 
 describe("DateInput input value test", () => {
   it("has a input box", () => {
@@ -37,7 +35,7 @@ describe("DateInput input value test", () => {
 
     const input = screen.getByRole("input");
     fireEvent.change(input, {
-      target: { value: "2022-01-01" },
+      target: { value: "20220101" },
     });
 
     expect(input).toHaveAttribute("value", "2022-01-01");

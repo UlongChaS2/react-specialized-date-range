@@ -58,7 +58,11 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
         </button>
       )}
 
-      <div onClick={() => actions.changeBiggerUnit(standard)} className='calendarHeaderTitle'>
+      <div
+        role='title'
+        onClick={() => actions.changeBiggerUnit(standard)}
+        className='calendarHeaderTitle'
+      >
         {date[standard].title()}
       </div>
 

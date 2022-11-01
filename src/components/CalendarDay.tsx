@@ -27,7 +27,6 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
       : weekDays;
 
   const { days } = useDay({ year, month, locale, reorderWeekDays });
-  // console.log(year, month, days);
 
   const handleClickDay = (day: IDay) => {
     if (!disabledDates) return actions.changeHighlightDateByCalendar(standard, day);
@@ -55,6 +54,7 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
                 (selectedDate === day.date || date[refer(standard)].selectedDate === day.date) &&
                 "highlight"
               } ${
+                date.startDate.selectedDate &&
                 date.startDate.selectedDate < day.date &&
                 day.date < date.endDate.selectedDate &&
                 "range"
