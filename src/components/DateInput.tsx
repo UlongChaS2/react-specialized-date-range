@@ -64,7 +64,7 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
   return (
     <div className='inputWrapper'>
       {standard !== EStandard.SINGLE && (
-        <label className='inputLabel' data-testid={`${standard}`}>
+        <label className='inputLabel' role='label' data-testid={`${standard}`}>
           {standard === EStandard.STARTDATE
             ? `${t(EStandard.STARTDATE)}:`
             : `${t(EStandard.ENDDATE)}:`}
@@ -73,6 +73,7 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
 
       <div className='inputBasicWrapper'>
         <input
+          role='input'
           className='inputValue'
           type='text'
           placeholder={placeholder}

@@ -1,14 +1,15 @@
 import { IDate, IDay } from "../../@types/date";
 import { IDatePickerContextValues } from "../../@types/dateContext";
 import { convertTitleToUnit, todayDashFormat } from "../dateFormat";
+import { thisDay, thisMonth, thisYear } from "./date";
 
 const defaultDateOption: IDate = {
   unit: "day",
   title: function () {
     return convertTitleToUnit(this.unit, this.year, this.month);
   },
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
+  year: thisYear,
+  month: thisDay === 1 ? thisMonth - 1 : thisMonth,
   today: todayDashFormat(),
   selectedDate: "",
 };
@@ -39,7 +40,8 @@ export const initialDateOptionState = {
   mode: "basic",
   placement: "bottom",
   format: "YYYY-MM-DD",
-  value: ["2022-01-05", "2022-01-05"],
+  value: ["", ""],
+  // value: ["2022-01-05", "2022-01-05"],
   startDayOfWeek: "Sunday",
   onChange: () => {},
 };

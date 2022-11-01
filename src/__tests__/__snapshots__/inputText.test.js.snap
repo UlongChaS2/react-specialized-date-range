@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateInput input value test matches snapshot 1`] = `
+<div>
+  <div
+    class="inputWrapper"
+  >
+    <label
+      class="inputLabel"
+      data-testid="undefined"
+      role="label"
+    >
+      end date:
+    </label>
+    <div
+      class="inputBasicWrapper"
+    >
+      <input
+        class="inputValue"
+        placeholder="YYYY-MM-DD"
+        role="input"
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;

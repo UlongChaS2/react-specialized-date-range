@@ -142,6 +142,6 @@ const getYear = (prev: any, value: string) => {
 };
 
 const getMonth = (prev: any, value: string) => {
-  if (!value) return prev.year;
+  if (!value) return prev.month;
   return Number(value.split("-")[1]);
 };

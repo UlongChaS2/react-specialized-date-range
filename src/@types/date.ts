@@ -23,6 +23,12 @@ export interface IDateInputProps extends ICalendarProps {
   value?: string;
 }
 
+export interface ICalendarDayProps extends ICalendarProps {
+  year: number;
+  month: number;
+  selectedDate: string;
+}
+
 export enum EUnit {
   DAY = "day",
   MONTH = "month",

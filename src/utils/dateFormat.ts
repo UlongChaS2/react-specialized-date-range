@@ -1,6 +1,6 @@
 import { ELanguage, EUnit } from "../@types/date";
 import i18n from "../lang/i18n";
-import { months, thisDate, thisMonth, thisYear } from "./constants/date";
+import { months, thisDay, thisMonth, thisYear } from "./constants/date";
 
 export const getWeekday = (year: number, month: number, day: number, locale: string) => {
   return new Date(year, month, day).toLocaleString(locale, {
@@ -12,7 +12,7 @@ export const translateOneToTenFormat = (date: number): string => {
   return date >= 10 ? String(date) : `0${date}`;
 };
 
-export const todayDashFormat = (year = thisYear, month = thisMonth, date = thisDate) => {
+export const todayDashFormat = (year = thisYear, month = thisMonth, date = thisDay) => {
   return `${year}-${translateOneToTenFormat(month)}-${translateOneToTenFormat(date)}`;
 };
 

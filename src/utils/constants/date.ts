@@ -26,4 +26,4 @@ export const months = [
 const today = new Date();
 export const thisYear = today.getFullYear();
 export const thisMonth = today.getMonth() + 1;
-export const thisDate = today.getDate();
+export const thisDay = today.getDate();
