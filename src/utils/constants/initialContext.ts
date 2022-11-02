@@ -1,6 +1,6 @@
 import { IDate, IDay } from "../../@types/date";
 import { IDatePickerContextValues } from "../../@types/dateContext";
-import { convertTitleToUnit, todayDashFormat } from "../dateFormat";
+import { convertTitleToUnit, findSpecialCharacterStr, todayDashFormat } from "../dateFormat";
 import { thisDay, thisMonth, thisYear } from "./date";
 
 const defaultDateOption: IDate = {
@@ -36,12 +36,14 @@ export const initialDateOptionState = {
   height: "100%",
   double: true,
   disabledDates: null,
-  placeholder: "YYYY-MM-DD",
+  placeholder: "",
   mode: "basic",
   placement: "bottom",
   format: "YYYY-MM-DD",
   value: ["", ""],
-  // value: ["2022-01-05", "2022-01-05"],
+  formatSeparator: function () {
+    return findSpecialCharacterStr(this.format);
+  },
   startDayOfWeek: "Sunday",
   onChange: () => {},
 };

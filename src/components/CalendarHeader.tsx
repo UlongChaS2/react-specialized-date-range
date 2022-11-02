@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 
-import { translateOneToTenFormat } from "../utils/dateFormat";
+import { findSpecialCharacterStr, translateOneToTenFormat } from "../utils/dateFormat";
 import { EDirection, ELanguage, EUnit, ICalendarProps } from "../@types/date";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import i18n from "../lang/i18n";
@@ -11,18 +11,30 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates } = option;
-
+  const { disabledDates, format } = option;
+  const formatSeparator = findSpecialCharacterStr(format);
   const styleLeftArrow = () => {
     if (disabledDates) {
       if (
         (date[standard].unit === EUnit.MONTH && i18n.language !== ELanguage.EN) ||
         date[standard].unit === EUnit.DAY
       ) {
-        return (
-          disabledDates[0].slice(0, -3) >=
-          `${date[standard].year}-${translateOneToTenFormat(date[standard].month)}`
-        );
+        if (format.startsWith("Y") || format.startsWith("y")) {
+          return (
+            disabledDates[0].slice(0, -3) >=
+            `${date[standard].year}${formatSeparator}${translateOneToTenFormat(
+              date[standard].month
+            )}`
+          );
+        } else if (format.startsWith("M") || format.startsWith("m")) {
+          return (
+            disabledDates[0].slice(0, 3) + disabledDates[0].slice(-4) >=
+            `${date[standard].month}${formatSeparator}${translateOneToTenFormat(
+              date[standard].year
+            )}`
+          );
+        } else {
+        }
       }
 
       return disabledDates[0].slice(0, 4) >= String(date[standard].title()).slice(0, 4);

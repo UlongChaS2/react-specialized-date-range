@@ -16,6 +16,14 @@ export const todayDashFormat = (year = thisYear, month = thisMonth, date = thisD
   return `${year}-${translateOneToTenFormat(month)}-${translateOneToTenFormat(date)}`;
 };
 
+export const todaySlashFormat = (year = thisYear, month = thisMonth, date = thisDay) => {
+  return `${year}/${translateOneToTenFormat(month)}/${translateOneToTenFormat(date)}`;
+};
+
+export const todayDotFormat = (year = thisYear, month = thisMonth, date = thisDay) => {
+  return `${year}.${translateOneToTenFormat(month)}.${translateOneToTenFormat(date)}`;
+};
+
 export const convertTitleToUnit = (unit: string, year: number, month: number) => {
   if (unit === EUnit.DECADE) return `${(year + "").slice(0, 2)}00-${(year + "").slice(0, 2)}90`;
   if (unit === EUnit.YEAR) return `${(year + "").slice(0, 3)}0-${(year + "").slice(0, 3)}9`;
@@ -30,3 +38,22 @@ export const convertTitleToUnit = (unit: string, year: number, month: number) =>
 const translateTitleToKo = (year: number, month: number) => `${year} ${month}월`;
 const translateTitleToEn = (year: number, month: number) => `${months[month - 1]} ${year}`;
 const translateTitleToJa = (year: number, month: number) => `${year}年 ${month}月`;
+
+export const findSpecialCharacterStr = (format: string) => {
+  const RegNumOrStr = /[a-zA-Z]/g;
+  return format.replace(RegNumOrStr, "").substring(0, 1);
+};
+
+export const checkFormatRegExr = (format: string, str: string) => {
+  if (!str) return true;
+
+  let numLength: number;
+  format.startsWith("Y") ? (numLength = 4) : (numLength = 2);
+  const regExp = new RegExp(
+    `([0-9a-zA-z]{${numLength}})*${findSpecialCharacterStr(
+      format
+    )}([0-9a-zA-z]{2})*${findSpecialCharacterStr(format)}([0-9a-zA-z]+)`
+  );
+
+  return regExp.test(str);
+};

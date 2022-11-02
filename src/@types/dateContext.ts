@@ -31,6 +31,7 @@ export interface IDatePickerContextValues {
   placeholder: string;
   readOnly?: boolean;
   value?: string[];
+  formatSeparator: () => string;
   onChange: (e: any) => void;
 }
 

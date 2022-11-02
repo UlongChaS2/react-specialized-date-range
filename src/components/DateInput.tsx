@@ -4,13 +4,15 @@ import { EMode, EStandard, IDateInputProps } from "../@types/date";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
+import { checkFormatRegExr, findSpecialCharacterStr } from "../utils/dateFormat";
 
 export default function DateInput({ standard, setIsActive, value }: IDateInputProps) {
   const { t } = useTranslation();
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates, placeholder, mode } = option;
+  const { disabledDates, placeholder, mode, format } = option;
+  const formatSeparator = findSpecialCharacterStr(format);
 
   const [text, setText] = React.useState("");
 
@@ -18,10 +20,22 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
     value && setText(value);
   }, []);
 
+  // NOTE: Error 관리 - format 구분자와 disabledDates의 배열 원소들의 구분자가 달랐을 때 나오는 error
   React.useEffect(() => {
-    if (date[standard]) {
-      (date[standard].selectedDate || !value) && setText(date[standard].selectedDate);
+    if (disabledDates) {
+      const disabledDatesStart = checkFormatRegExr(format, disabledDates[0]);
+      const disabledDatesEnd = checkFormatRegExr(format, disabledDates[1]);
+      const formatTest = checkFormatRegExr(format, format);
+
+      if (!formatTest || !disabledDatesStart || !disabledDatesEnd)
+        throw new Error("Set limits according to the format you set.");
     }
+  }, [disabledDates]);
+
+  React.useEffect(() => {
+    date[standard] &&
+      (date[standard].selectedDate || !value) &&
+      setText(date[standard].selectedDate);
   }, [date[standard] && date[standard].selectedDate]);
 
   const handleChangeDate = React.useCallback(
@@ -34,11 +48,17 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
         let DataFormat: string = "";
         let RegDateFmt: RegExp | string = "";
 
-        if (onlyNum.length <= 6) {
-          DataFormat = `$1-$2`;
+        if (onlyNum.length <= 4) {
+          DataFormat = `$1${formatSeparator}$2`;
+          RegDateFmt = /([0-9]{2})([0-9]+)/;
+        } else if ((format.startsWith("Y") || format.startsWith("y")) && onlyNum.length <= 6) {
+          DataFormat = `$1${formatSeparator}$2`;
           RegDateFmt = /([0-9]{4})([0-9]+)/;
         } else if (onlyNum.length <= 8) {
-          DataFormat = `$1-$2-$3`;
+          DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
+          RegDateFmt = /([0-9]{2})([0-9]{2})([0-9]+)/;
+        } else if (format.startsWith("Y") || (format.startsWith("y") && onlyNum.length <= 8)) {
+          DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
           RegDateFmt = /([0-9]{4})([0-9]{2})([0-9]+)/;
         }
 
@@ -50,6 +70,8 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
 
           if (!disabledDates || !newDate)
             return actions.changeHighlightDateByInput(standard, newDate);
+
+          console.log(disabledDates[0], value, disabledDates[1]);
 
           disabledDates[0] < value && value < disabledDates[1]
             ? actions.changeHighlightDateByInput(standard, newDate)
