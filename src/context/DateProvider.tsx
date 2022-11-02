@@ -36,6 +36,8 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
         setDate((prev) => onChangeDateByCalendar(prev, standard, seletedDay));
       },
       changeHighlightDateByInput(standard: string, dateStr: string) {
+        console.log("check");
+
         setDate((prev) => onChangeDateByInput(prev, standard, dateStr));
       },
       changeMonth(standard: string, index: number) {

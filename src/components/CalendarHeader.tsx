@@ -45,6 +45,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
     }
   };
 
+  const onLeftBtnClick = () => {};
   return (
     <div className='calendarHeaderWrapper'>
       {styleLeftArrow() ? (
@@ -53,6 +54,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
         <button
           className='calendarHeaderBtn'
           onClick={() => actions.changeTitle(standard, EDirection.LEFT)}
+          // onClick={onLeftBtnClick}
         >
           {"«"}
         </button>
