@@ -32,13 +32,11 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
           [standard]: onChangeTitle(prev[standard], arrow),
         }));
       },
-      changeHighlightDateByCalendar(standard: string, seletedDay: IDay) {
-        setDate((prev) => onChangeDateByCalendar(prev, standard, seletedDay));
+      changeHighlightDateByCalendar(standard: string, seletedDay: IDay, format: string) {
+        setDate((prev) => onChangeDateByCalendar(prev, standard, seletedDay, format));
       },
-      changeHighlightDateByInput(standard: string, dateStr: string) {
-        console.log("check");
-
-        setDate((prev) => onChangeDateByInput(prev, standard, dateStr));
+      changeHighlightDateByInput(standard: string, dateStr: string, format: string) {
+        setDate((prev) => onChangeDateByInput(prev, standard, dateStr, format));
       },
       changeMonth(standard: string, index: number) {
         setDate((prev) => ({

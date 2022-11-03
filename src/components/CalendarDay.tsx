@@ -10,12 +10,13 @@ import { refer } from "../utils/dateOption";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarDayProps, IDay } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
+import { dateFormatYYYYMMDD, onlyNum, transformDDMMYYYYtoMMDDYYYY } from "../utils/dateFormat";
 
 export default function CalendarDay({ standard, year, month, selectedDate }: ICalendarDayProps) {
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates, locale = i18n.language, startDayOfWeek } = option;
+  const { disabledDates, locale = i18n.language, startDayOfWeek, format } = option;
 
   const { t } = useTranslation();
 
@@ -26,14 +27,38 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
           .concat(weekDays.slice(0, weekDays.indexOf(startDayOfWeek)))
       : weekDays;
 
-  const { days } = useDay({ year, month, locale, reorderWeekDays });
+  const { days } = useDay({ year, month, locale, reorderWeekDays, format });
 
   const handleClickDay = (day: IDay) => {
-    if (!disabledDates) return actions.changeHighlightDateByCalendar(standard, day);
+    if (!disabledDates) return actions.changeHighlightDateByCalendar(standard, day, format);
 
-    disabledDates[0] < day.date &&
-      day.date < disabledDates[1] &&
-      actions.changeHighlightDateByCalendar(standard, day);
+    let startDisabledDate = disabledDates[0];
+    let endDisabledDate = disabledDates[1];
+    let selecteDay = day.date;
+
+    if (format.startsWith("D") || format.startsWith("d")) {
+      startDisabledDate = transformDDMMYYYYtoMMDDYYYY(startDisabledDate);
+      endDisabledDate = transformDDMMYYYYtoMMDDYYYY(endDisabledDate);
+      selecteDay = transformDDMMYYYYtoMMDDYYYY(selecteDay);
+    }
+
+    (!disabledDates[0] || startDisabledDate < selecteDay) &&
+      (!disabledDates[1] || selecteDay < endDisabledDate) &&
+      actions.changeHighlightDateByCalendar(standard, day, format);
+  };
+
+  const rangeStyle = (day: string) => {
+    let startSelected = date.startDate.selectedDate;
+    let endSelected = date.endDate.selectedDate;
+    let dayEl = day;
+
+    if (format.startsWith("D") || format.startsWith("d")) {
+      startSelected = transformDDMMYYYYtoMMDDYYYY(startSelected);
+      endSelected = transformDDMMYYYYtoMMDDYYYY(endSelected);
+      dayEl = transformDDMMYYYYtoMMDDYYYY(dayEl);
+    }
+
+    return date.startDate.selectedDate && startSelected < dayEl && dayEl < endSelected;
   };
 
   return (
@@ -53,17 +78,12 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
               className={`calendarDateDayUnitContent ${
                 (selectedDate === day.date || date[refer(standard)].selectedDate === day.date) &&
                 "highlight"
-              } ${
-                date.startDate.selectedDate &&
-                date.startDate.selectedDate < day.date &&
-                day.date < date.endDate.selectedDate &&
-                "range"
-              } ${day.weekday === t("weekDays.Saturday") && "saturday"} ${
-                day.weekday === t("weekDays.Sunday") && "sunday"
-              } ${
+              } ${rangeStyle(day.date) && "range"} ${
+                day.weekday === t("weekDays.Saturday") && "saturday"
+              } ${day.weekday === t("weekDays.Sunday") && "sunday"} ${
                 (day.isCurrentDay !== "thisMonth" ||
                   (disabledDates && disabledDates[0] >= day.date) ||
-                  (disabledDates && day.date >= disabledDates[1])) &&
+                  (disabledDates && day.date >= disabledDates[1] && disabledDates[1])) &&
                 "disabled"
               }`}
               key={index}

@@ -1,6 +1,6 @@
 import { EStandard, EUnit, IDate } from "../@types/date";
 import { IDateContextValues } from "../@types/dateContext";
-import { translateOneToTenFormat } from "./dateFormat";
+import { dateFormat, findSpecialCharacterStr, translateOneToTenFormat } from "./dateFormat";
 import { refer } from "./dateOption";
 import { changeCentury, changeDecade, changeMonth, changeYear } from "./dateTitle";
 
@@ -26,14 +26,24 @@ export const onChangeBiggerUnit = (prevDate: IDate) => {
 export const onChangeDateByCalendar = (
   prevDate: IDateContextValues,
   standard: string,
-  clickedDate: any
+  clickedDate: any,
+  format: string
 ) => {
   const { selectedDate } = prevDate[refer(standard)];
 
-  const clickedDateArr = clickedDate.date.split("-");
-  let selectedYear = Number(clickedDateArr[0]);
-  let selectedMonth = Number(clickedDateArr[1]);
-  const selectedDay = clickedDateArr[2];
+  const clickedDateArr = clickedDate.date.split(findSpecialCharacterStr(format));
+  let selectedYear =
+    format.startsWith("Y") || format.startsWith("y") ? +clickedDateArr[0] : +clickedDateArr[2];
+
+  let selectedMonth =
+    format.startsWith("M") || format.startsWith("m") ? +clickedDateArr[0] : +clickedDateArr[1];
+
+  const selectedDay =
+    format.startsWith("Y") || format.startsWith("y")
+      ? +clickedDateArr[2]
+      : format.startsWith("M") || format.startsWith("m")
+      ? +clickedDateArr[1]
+      : +clickedDateArr[0];
 
   if (selectedMonth) {
     if (selectedMonth === 13) {
@@ -48,7 +58,7 @@ export const onChangeDateByCalendar = (
   let newSelectedDate = {
     year: selectedYear,
     month: selectedMonth,
-    selectedDate: `${selectedYear}-${translateOneToTenFormat(selectedMonth)}-${selectedDay}`,
+    selectedDate: dateFormat(format, selectedYear, selectedMonth, selectedDay),
   };
 
   if (
@@ -69,16 +79,30 @@ export const onChangeDateByCalendar = (
 export const onChangeDateByInput = (
   prevDate: IDateContextValues,
   standard: string,
-  str: string
+  str: string,
+  format: string
 ) => {
   const { selectedDate } = prevDate[refer(standard)];
-  const selectedYear = str.split("-")[0];
-  const selectedMonth = str.split("-")[1];
+
+  const selectedDateArr = str.split(findSpecialCharacterStr(format));
+  const selectedYear =
+    format.startsWith("Y") || format.startsWith("y") ? selectedDateArr[0] : selectedDateArr[2];
+
+  const selectedMonth =
+    format.startsWith("M") || format.startsWith("m") ? selectedDateArr[0] : selectedDateArr[1];
+
+  const selectedDay =
+    format.startsWith("Y") || format.startsWith("y")
+      ? selectedDateArr[2]
+      : format.startsWith("M") || format.startsWith("m")
+      ? selectedDateArr[1]
+      : selectedDateArr[0];
 
   let newSelectedDate = {
     year: Number(selectedYear),
-    month: Number(selectedMonth),
-    selectedDate: str,
+    month: Number(selectedMonth) < 13 ? Number(selectedMonth) : 12,
+    selectedDate:
+      Number(selectedMonth) < 13 ? str : dateFormat(format, +selectedYear, 12, +selectedDay),
   };
 
   if (!str) {

@@ -4,7 +4,11 @@ import { EMode, EStandard, IDateInputProps } from "../@types/date";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { checkFormatRegExr, findSpecialCharacterStr } from "../utils/dateFormat";
+import {
+  checkFormatRegExr,
+  findSpecialCharacterStr,
+  transformDDMMYYYYtoMMDDYYYY,
+} from "../utils/dateFormat";
 
 export default function DateInput({ standard, setIsActive, value }: IDateInputProps) {
   const { t } = useTranslation();
@@ -47,34 +51,50 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
 
         let DataFormat: string = "";
         let RegDateFmt: RegExp | string = "";
+        console.log(format);
 
-        if (onlyNum.length <= 4) {
-          DataFormat = `$1${formatSeparator}$2`;
-          RegDateFmt = /([0-9]{2})([0-9]+)/;
-        } else if ((format.startsWith("Y") || format.startsWith("y")) && onlyNum.length <= 6) {
-          DataFormat = `$1${formatSeparator}$2`;
-          RegDateFmt = /([0-9]{4})([0-9]+)/;
-        } else if (onlyNum.length <= 8) {
-          DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
-          RegDateFmt = /([0-9]{2})([0-9]{2})([0-9]+)/;
-        } else if (format.startsWith("Y") || (format.startsWith("y") && onlyNum.length <= 8)) {
-          DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
-          RegDateFmt = /([0-9]{4})([0-9]{2})([0-9]+)/;
+        if (format.startsWith("Y") || format.startsWith("y")) {
+          if (onlyNum.length <= 6) {
+            DataFormat = `$1${formatSeparator}$2`;
+            RegDateFmt = /([0-9]{4})([0-9]+)/;
+          }
+          if (6 < onlyNum.length && onlyNum.length <= 8) {
+            DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
+            RegDateFmt = /([0-9]{4})([0-9]{2})([0-9]+)/;
+          }
+        } else {
+          if (onlyNum.length <= 4) {
+            console.log("check");
+
+            DataFormat = `$1${formatSeparator}$2`;
+            RegDateFmt = /([0-9]{2})([0-9]+)/;
+          }
+          if (4 < onlyNum.length && onlyNum.length <= 8) {
+            DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`;
+            RegDateFmt = /([0-9]{2})([0-9]{2})([0-9]+)/;
+          }
         }
 
         const newDate = onlyNum.replace(RegDateFmt, DataFormat);
+        let disabledDateStart = disabledDates ? disabledDates[0] : "";
+        let disabledDateEnd = disabledDates ? disabledDates[1] : "";
+        let writeDay = newDate;
+
+        if (format.startsWith("D") || format.startsWith("d")) {
+          disabledDateStart = transformDDMMYYYYtoMMDDYYYY(disabledDateStart);
+          disabledDateEnd = transformDDMMYYYYtoMMDDYYYY(disabledDateEnd);
+          writeDay = transformDDMMYYYYtoMMDDYYYY(writeDay);
+        }
         setText(newDate);
 
         if (newDate.length === 10 || !newDate) {
           // NOTE: 설정한 날짜 범위가 아닐 경우 제일 마지막으로 설정했던 값으로 변한다. <초기화 시킬 수 있음>
 
           if (!disabledDates || !newDate)
-            return actions.changeHighlightDateByInput(standard, newDate);
+            return actions.changeHighlightDateByInput(standard, newDate, format);
 
-          console.log(disabledDates[0], value, disabledDates[1]);
-
-          disabledDates[0] < value && value < disabledDates[1]
-            ? actions.changeHighlightDateByInput(standard, newDate)
+          disabledDateStart < writeDay && (writeDay < disabledDateEnd || !disabledDateEnd)
+            ? actions.changeHighlightDateByInput(standard, newDate, format)
             : setText("");
           // : setText(date[standard].selectedDate);
         }

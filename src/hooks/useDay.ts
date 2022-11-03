@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { weekDays } from "../utils/constants/date";
-import { getWeekday, todayDashFormat } from "../utils/dateFormat";
+import { dateFormat, getWeekday, todayDashFormat } from "../utils/dateFormat";
 import { IDay } from "../@types/date";
 
 interface IUseDayPrams {
@@ -9,9 +9,10 @@ interface IUseDayPrams {
   month: number;
   locale: string;
   reorderWeekDays: string[];
+  format: string;
 }
 
-export default function useDay({ year, month, locale, reorderWeekDays }: IUseDayPrams) {
+export default function useDay({ year, month, locale, reorderWeekDays, format }: IUseDayPrams) {
   const [days, setDays] = React.useState<Array<IDay>>([]);
 
   React.useLayoutEffect(() => {
@@ -27,7 +28,7 @@ export default function useDay({ year, month, locale, reorderWeekDays }: IUseDay
     const daysArr = [];
     for (let i = 1; i <= 42; i++) {
       if (i > paddingDays && i <= lastDayOfMonth + paddingDays) {
-        const dateStr = todayDashFormat(year, month, i - paddingDays);
+        const dateStr = dateFormat(format, year, month, i - paddingDays);
 
         daysArr.push({
           value: i - paddingDays,
@@ -36,7 +37,8 @@ export default function useDay({ year, month, locale, reorderWeekDays }: IUseDay
           weekday: getWeekday(year, month - 1, i - paddingDays, locale),
         });
       } else if (i >= lastDayOfMonth) {
-        const dateStr = todayDashFormat(year, month + 1, i - (paddingDays + lastDayOfMonth));
+        const dateStr = dateFormat(format, year, month + 1, i - (paddingDays + lastDayOfMonth));
+
         daysArr.push({
           value: i - (paddingDays + lastDayOfMonth),
           isCurrentDay: "nextMonth",
@@ -45,7 +47,8 @@ export default function useDay({ year, month, locale, reorderWeekDays }: IUseDay
         });
       } else {
         const lastDayOfLastMonth = new Date(year, month - 1, 0).getDate();
-        const dateStr = todayDashFormat(year, month - 1, lastDayOfLastMonth - paddingDays + i);
+        const dateStr = dateFormat(format, year, month - 1, lastDayOfLastMonth - paddingDays + i);
+
         daysArr.push({
           value: lastDayOfLastMonth - paddingDays + i,
           isCurrentDay: "lastMonth",
