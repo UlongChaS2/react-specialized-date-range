@@ -19,12 +19,12 @@ export const convertDateFormat = (
   format: string = "YYYY-MM-DD"
 ): string => {
   const formatSeparator = findSpecialCharacterStr(format);
-  if (checkYYYYMMDD(format)) return convertDateFormatYYYYMMDD(year, month, day, formatSeparator);
+  if (checkYYYYMMDD(format)) return dateFormatYYYYMMDD(year, month, day, formatSeparator);
   else if (checkMMDDYYYY(format)) return dateFormatMMDDYYYY(year, month, day, formatSeparator);
   else return dateFormatDDMMYYYY(year, month, day, formatSeparator);
 };
 
-export const convertDateFormatYYYYMMDD = (
+export const dateFormatYYYYMMDD = (
   year: number,
   month: number,
   day: number,
@@ -101,7 +101,7 @@ export const findDecadeInYear = (year: string | number): string => {
   return String(year).slice(0, 3);
 };
 
-export const converToProperDeafultFormat = (value: string, format: string): string => {
+export const convertToDeafultFormat = (value: string, format: string): string => {
   if (checkYYYYMMDD(format) || !value) return value;
 
   const num = replaceOnlyNum(value);

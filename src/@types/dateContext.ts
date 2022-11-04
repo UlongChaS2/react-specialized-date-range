@@ -15,6 +15,7 @@ export interface IDateContextActions {
   changeYear: (standard: string, year: number) => void;
   changeDecade: (standard: string, decade: number) => void;
   setSelectedDate: (double: boolean, value?: string[]) => void;
+  setToDisabledEndDate: (double: boolean, disabledEndDate: string) => void;
 }
 
 export interface IDatePickerContextValues {

@@ -5,7 +5,7 @@ import useDecade from "../hooks/useDecade";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { converToProperDeafultFormat, findDecadeInYear, findYearInStr } from "../utils/dateFormat";
+import { convertToDeafultFormat, findDecadeInYear, findYearInStr } from "../utils/dateFormat";
 
 export default function CalendarDecade({ standard }: ICalendarProps) {
   const date: IDateContextValues = useDateValuesContext();
@@ -17,7 +17,7 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
   const { decades } = useDecade({ year });
   const selectedYear = findYearInStr(selectedDate, format);
   const disabledYear = disabledDates?.map((item) =>
-    findDecadeInYear(converToProperDeafultFormat(item, format))
+    findDecadeInYear(convertToDeafultFormat(item, format))
   );
 
   const handleClickDecade = (decade: number) => {

@@ -1,7 +1,7 @@
-import { EStandard, EUnit, IDate } from "../@types/date";
+import { EStandard, EType, EUnit, IDate } from "../@types/date";
 import { IDateContextValues } from "../@types/dateContext";
 import {
-  converToProperDeafultFormat,
+  convertToDeafultFormat,
   convertDateFormat,
   findDayInStr,
   findMonthInStr,
@@ -17,7 +17,7 @@ export const onChangeTitle = (prevDate: IDate, arrow: string) => {
   if (prevDate.unit === EUnit.DECADE) return changeCentury(prevDate, arrow);
 };
 
-export const onChangeBiggerUnit = (prevDate: IDate) => {
+export const onChangeBiggerUnit = (prevDate: IDate): IDate => {
   if (prevDate.unit === EUnit.DECADE) return prevDate;
 
   let unit = prevDate.unit;
@@ -35,7 +35,7 @@ export const onChangeDate = (
   str: string,
   format: string,
   type: string
-) => {
+): IDateContextValues => {
   if (!str) return { ...prevDate, [standard]: { ...prevDate[standard], selectedDate: "" } };
 
   const { selectedDate } = prevDate[refer(standard)];
@@ -43,7 +43,7 @@ export const onChangeDate = (
   let selectedMonth = findMonthInStr(str, format);
   const selectedDay = findDayInStr(str, format);
 
-  if (type === "calendar") {
+  if (type === EType.CALENDAR) {
     if (selectedMonth === 13) {
       selectedYear++;
       selectedMonth = 1;
@@ -51,19 +51,18 @@ export const onChangeDate = (
       selectedYear--;
       selectedMonth = 12;
     }
+  } else {
+    selectedMonth >= 13 && (selectedMonth = 12);
   }
 
   let newSelectedDate = {
     year: selectedYear,
     month: selectedMonth < 13 ? selectedMonth : 12,
-    selectedDate:
-      type === "input"
-        ? convertDateFormat(selectedYear, 12, selectedDay, format)
-        : convertDateFormat(selectedYear, selectedMonth, selectedDay, format),
+    selectedDate: convertDateFormat(selectedYear, selectedMonth, selectedDay, format),
   };
 
-  const referSelcetedDate = converToProperDeafultFormat(selectedDate, format);
-  const writenDate = converToProperDeafultFormat(str, format);
+  const referSelcetedDate = convertToDeafultFormat(selectedDate, format);
+  const writenDate = convertToDeafultFormat(str, format);
 
   if (
     standard !== EStandard.SINGLE &&
@@ -80,15 +79,19 @@ export const onChangeDate = (
   return { ...prevDate, [standard]: { ...prevDate[standard], ...newSelectedDate } };
 };
 
-export const onChangeMonth = (prevDate: IDate, index: number) => {
+export const onChangeMonth = (prevDate: IDate, index: number): IDate => {
   return { ...prevDate, unit: EUnit.DAY, month: index + 1 };
 };
 
-export const onChangeYearOrDecade = (prevDate: IDate, year: number) => {
+export const onChangeYearOrDecade = (prevDate: IDate, year: number): IDate => {
   return { ...prevDate, unit: prevDate.unit === EUnit.DECADE ? EUnit.YEAR : EUnit.MONTH, year };
 };
 
-export const setSelectDate = (prevDate: IDateContextValues, double: boolean, value: string[]) => {
+export const onSetSelectDate = (
+  prevDate: IDateContextValues,
+  double: boolean,
+  value: string[]
+): IDateContextValues => {
   if (double) {
     return {
       ...prevDate,
@@ -103,7 +106,29 @@ export const setSelectDate = (prevDate: IDateContextValues, double: boolean, val
   }
 };
 
-const getDate = (prev: any, value: string) => {
+export const onSetToDisabledEndDate = (
+  prev: IDateContextValues,
+  double: boolean,
+  disabledEndDate: string
+): IDateContextValues => {
+  const year = +disabledEndDate.slice(0, 4);
+  const month = +disabledEndDate.slice(-2);
+
+  if (double) {
+    return {
+      ...prev,
+      startDate: { ...prev.startDate, year, month },
+      endDate: { ...prev.endDate, year, month },
+    };
+  } else {
+    return {
+      ...prev,
+      single: { ...prev.single, year, month },
+    };
+  }
+};
+
+const getDate = (prev: IDate, value: string) => {
   return {
     ...prev,
     selectedDate: value,
@@ -112,13 +137,13 @@ const getDate = (prev: any, value: string) => {
   };
 };
 
-const getYear = (prev: any, value: string) => {
+const getYear = (prev: IDate, value: string) => {
   if (!value) return prev.year;
 
   return Number(value.split("-")[0]);
 };
 
-const getMonth = (prev: any, value: string) => {
+const getMonth = (prev: IDate, value: string) => {
   if (!value) return prev.month;
   return Number(value.split("-")[1]);
 };

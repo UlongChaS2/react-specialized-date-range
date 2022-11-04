@@ -5,7 +5,8 @@ import {
   onChangeMonth,
   onChangeYearOrDecade,
   onChangeDate,
-  setSelectDate,
+  onSetSelectDate,
+  onSetToDisabledEndDate,
 } from "../utils/date";
 import { IDateContextActions, IDateContextValues } from "../@types/dateContext";
 import { initialDateAction, initialDateState } from "../utils/constants/initialContext";
@@ -52,7 +53,10 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
         }));
       },
       setSelectedDate(double: boolean, value?: string[]) {
-        setDate((prev) => (value ? setSelectDate(prev, double, value) : prev));
+        setDate((prev) => (value ? onSetSelectDate(prev, double, value) : prev));
+      },
+      setToDisabledEndDate(double: boolean, disabledEndDate: string) {
+        setDate((prev) => onSetToDisabledEndDate(prev, double, disabledEndDate));
       },
     }),
     []

@@ -5,7 +5,7 @@ import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateCon
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { converToProperDeafultFormat, findYearInStr } from "../utils/dateFormat";
+import { convertToDeafultFormat, findYearInStr } from "../utils/dateFormat";
 
 export default function CalendarYear({ standard }: ICalendarProps) {
   const date: IDateContextValues = useDateValuesContext();
@@ -17,7 +17,7 @@ export default function CalendarYear({ standard }: ICalendarProps) {
   const { years } = useYear({ year });
   const selectedYear = findYearInStr(selectedDate, format);
   const disabledYear = disabledDates?.map(
-    (item) => +converToProperDeafultFormat(item, format).slice(0, 4)
+    (item) => +convertToDeafultFormat(item, format).slice(0, 4)
   );
 
   const handleClickYear = (year: number) => {

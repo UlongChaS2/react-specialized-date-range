@@ -1,17 +1,15 @@
 import * as React from "react";
-import { useTranslation } from "react-i18next";
-import { EMode, EStandard, IDateInputProps } from "../@types/date";
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
-import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
+import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useTranslation } from "react-i18next";
+
 import {
   checkSetFormatRegExr,
-  checkYYYYMMDD,
-  converToProperDeafultFormat,
-  findSpecialCharacterStr,
+  convertToDeafultFormat,
   formattingNumToDate,
-  replaceOnlyNum,
 } from "../utils/dateFormat";
+import { EMode, EStandard, EType, IDateInputProps } from "../@types/date";
+import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 
 export default function DateInput({ standard, setIsActive, value }: IDateInputProps) {
   const { t } = useTranslation();
@@ -49,12 +47,12 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
 
       if (value.length <= 10) {
         const newDate = formattingNumToDate(value, format);
-        const writeDay = converToProperDeafultFormat(newDate, format);
+        const writeDay = convertToDeafultFormat(newDate, format);
         const disabledDateStart = disabledDates
-          ? converToProperDeafultFormat(disabledDates[0], format)
+          ? convertToDeafultFormat(disabledDates[0], format)
           : "";
         const disabledDateEnd = disabledDates
-          ? converToProperDeafultFormat(disabledDates[1], format)
+          ? convertToDeafultFormat(disabledDates[1], format)
           : "";
 
         setText(newDate);
@@ -63,10 +61,12 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
           // NOTE: 설정한 날짜 범위가 아닐 경우 제일 마지막으로 설정했던 값으로 변한다. <초기화 시킬 수 있음>
 
           if (!disabledDates || !newDate)
-            return actions.changeHighlightDate(standard, newDate, format, "input");
+            return actions.changeHighlightDate(standard, newDate, format, EType.INPUT);
+
+          console.log("newDate", newDate);
 
           disabledDateStart < writeDay && (writeDay < disabledDateEnd || !disabledDateEnd)
-            ? actions.changeHighlightDate(standard, newDate, format, "input")
+            ? actions.changeHighlightDate(standard, newDate, format, EType.INPUT)
             : setText("");
           // : setText(date[standard].selectedDate);
         }

@@ -3,7 +3,7 @@ import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateCon
 import { useTranslation } from "react-i18next";
 
 import {
-  converToProperDeafultFormat,
+  convertToDeafultFormat,
   findMonthInStr,
   findYearInStr,
   convertToDoubleDigits,
@@ -25,7 +25,7 @@ export default function CalendarMonth({ standard }: ICalendarProps) {
   const selectedYear = findYearInStr(selectedDate, format);
   const selectedMonth = findMonthInStr(selectedDate, format);
   const disabledMonth = disabledDates?.map((item) =>
-    converToProperDeafultFormat(item, format).slice(0, -3)
+    convertToDeafultFormat(item, format).slice(0, -3)
   );
 
   const handleClickMonth = (index: number) => {

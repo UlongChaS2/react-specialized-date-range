@@ -12,19 +12,28 @@ import { EMode, EStandard } from "../@types/date";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { IDatePickerContextValues } from "../@types/dateContext";
 import { useDateActionsContext } from "../hooks/useDateContext";
+import { convertDateFormat, convertToDeafultFormat } from "../utils/dateFormat";
 
 export default function DatePickerWrapper(props: IDatePickerContextValues) {
   const { i18n } = useTranslation();
   const optionActions = useDatePickerOptionActionsContext();
   const dateActions = useDateActionsContext();
   const options = useDatePickerOptionValuesContext();
-  const { width, height, double, locale, mode, placement, value } = options;
+  const { width, height, double, locale, mode, placement, value, disabledDates, format } = options;
 
   React.useEffect(() => {
     locale && i18n.language !== locale && i18n.changeLanguage(locale);
     dateActions.setSelectedDate(double, value);
     optionActions.setInitOption(props);
   }, []);
+
+  React.useEffect(() => {
+    if (disabledDates) {
+      const convertedEndDate = convertToDeafultFormat(disabledDates[1], format).slice(0, -3);
+      convertedEndDate < convertDateFormat().slice(0, -3) &&
+        dateActions.setToDisabledEndDate(double, convertedEndDate);
+    }
+  }, [disabledDates]);
 
   const { isActive, setIsActive, inputRef } = useOutsideClick();
 

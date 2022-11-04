@@ -26,7 +26,6 @@ export interface IDateInputProps extends ICalendarProps {
 export interface ICalendarDayProps extends ICalendarProps {
   year: number;
   month: number;
-  selectedDate: string;
 }
 
 export enum EUnit {
@@ -40,6 +39,11 @@ export enum EStandard {
   SINGLE = "single",
   STARTDATE = "startDate",
   ENDDATE = "endDate",
+}
+
+export enum EType {
+  CALENDAR = "calendar",
+  INPUT = "input",
 }
 
 export enum ELanguage {

@@ -8,16 +8,18 @@ import i18n from "../lang/i18n";
 import { weekDays } from "../utils/constants/date";
 import { refer } from "../utils/dateOption";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
-import { ICalendarDayProps, IDay } from "../@types/date";
+import { EType, ICalendarDayProps, IDate, IDay } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { converToProperDeafultFormat } from "../utils/dateFormat";
+import { convertToDeafultFormat } from "../utils/dateFormat";
 
-export default function CalendarDay({ standard, year, month, selectedDate }: ICalendarDayProps) {
+export default function CalendarDay({ standard, year, month }: ICalendarDayProps) {
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, locale = i18n.language, startDayOfWeek, format } = option;
-
+  const formattingDisabledDates = disabledDates?.map((item) =>
+    convertToDeafultFormat(item, format)
+  );
   const { t } = useTranslation();
 
   const reorderWeekDays =
@@ -29,24 +31,33 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
 
   const { days } = useDay({ year, month, locale, reorderWeekDays, format });
 
-  const handleClickDay = (day: IDay) => {
-    if (!disabledDates) return actions.changeHighlightDate(standard, day.date, format, "calendar");
+  const handleClickDay = (day: string) => {
+    if (!disabledDates || !formattingDisabledDates)
+      return actions.changeHighlightDate(standard, day, format, EType.CALENDAR);
 
-    const startDisabledDate = converToProperDeafultFormat(disabledDates[0], format);
-    const endDisabledDate = converToProperDeafultFormat(disabledDates[1], format);
-    const selecteDay = converToProperDeafultFormat(day.date, format);
+    const selecteDay = convertToDeafultFormat(day, format);
 
-    (!disabledDates[0] || startDisabledDate < selecteDay) &&
-      (!disabledDates[1] || selecteDay < endDisabledDate) &&
-      actions.changeHighlightDate(standard, day.date, format, "calendar");
+    (!disabledDates[0] || formattingDisabledDates[0] < selecteDay) &&
+      (!disabledDates[1] || selecteDay < formattingDisabledDates[1]) &&
+      actions.changeHighlightDate(standard, day, format, EType.CALENDAR);
   };
 
   const rangeStyle = (day: string) => {
-    const startSelected = converToProperDeafultFormat(date.startDate.selectedDate, format);
-    const endSelected = converToProperDeafultFormat(date.endDate.selectedDate, format);
-    const dayEl = converToProperDeafultFormat(day, format);
+    const startSelected = convertToDeafultFormat(date.startDate.selectedDate, format);
+    const endSelected = convertToDeafultFormat(date.endDate.selectedDate, format);
+    const dayEl = convertToDeafultFormat(day, format);
 
     return date.startDate.selectedDate && startSelected < dayEl && dayEl < endSelected;
+  };
+
+  const disabledStyle = (day: IDay) => {
+    return (
+      formattingDisabledDates &&
+      (day.isCurrentDay !== "thisMonth" ||
+        formattingDisabledDates[0] >= convertToDeafultFormat(day.date, format) ||
+        (convertToDeafultFormat(day.date, format) >= formattingDisabledDates[1] &&
+          formattingDisabledDates[1]))
+    );
   };
 
   return (
@@ -64,18 +75,16 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
           days.map((day, index) => (
             <div
               className={`calendarDateDayUnitContent ${
-                (selectedDate === day.date || date[refer(standard)].selectedDate === day.date) &&
+                (date[standard].selectedDate === day.date ||
+                  date[refer(standard)].selectedDate === day.date) &&
                 "highlight"
               } ${rangeStyle(day.date) && "range"} ${
                 day.weekday === t("weekDays.Saturday") && "saturday"
               } ${day.weekday === t("weekDays.Sunday") && "sunday"} ${
-                (day.isCurrentDay !== "thisMonth" ||
-                  (disabledDates && disabledDates[0] >= day.date) ||
-                  (disabledDates && day.date >= disabledDates[1] && disabledDates[1])) &&
-                "disabled"
+                disabledStyle(day) && "disabled"
               }`}
               key={index}
-              onClick={() => handleClickDay(day)}
+              onClick={() => handleClickDay(day.date)}
             >
               {day.value}
             </div>

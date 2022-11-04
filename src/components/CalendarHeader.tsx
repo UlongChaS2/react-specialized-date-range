@@ -1,78 +1,40 @@
 import * as React from "react";
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
-import {
-  findSpecialCharacterStr,
-  checkYYYYMMDD,
-  checkMMDDYYYY,
-  converToProperDeafultFormat,
-  convertDateFormat,
-} from "../utils/dateFormat";
+import i18n from "../lang/i18n";
+import { convertToDeafultFormat, convertDateFormat } from "../utils/dateFormat";
 import { EDirection, ELanguage, EUnit, ICalendarProps } from "../@types/date";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
-import i18n from "../lang/i18n";
-import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
 export default function CalendarHeader({ standard }: ICalendarProps) {
   const date: IDateContextValues = useDateValuesContext();
   const actions = useDateActionsContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, format } = option;
-  const formatSeparator = findSpecialCharacterStr(format);
 
-  const commonArrow = (date: string) => {
-    let disabledDate = {
-      year: 0,
-      month: 0,
-    };
+  const arrowCondition = (disabledDates: string, direction: string) => {
+    if (!disabledDates) return false;
 
-    if (checkYYYYMMDD(format)) {
-      disabledDate.year = +date.slice(0, 4);
-      disabledDate.month = +date.slice(5, 7);
-    } else if (checkMMDDYYYY(format)) {
-      disabledDate.year = +date.slice(-4);
-      disabledDate.month = +date.slice(0, 2);
-    } else {
-      disabledDate.year = +date.slice(-4);
-      disabledDate.month = +date.slice(3, 5);
-    }
+    const { year, month, unit } = date[standard];
 
-    return disabledDate;
-  };
+    const disabledDate = convertToDeafultFormat(disabledDates, format);
+    const calendarDate = convertDateFormat(year, month);
 
-  const leftArrow = () => {
-    if (disabledDates) {
-      if (!disabledDates[0]) return false;
-
-      const { year, month, unit } = date[standard];
-
-      const disabledDate = converToProperDeafultFormat(disabledDates[0], format);
-      const calendarDate = convertDateFormat(year, month);
-
+    if (direction === EDirection.LEFT) {
       return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
-        ? disabledDate < calendarDate
+        ? disabledDate.slice(0, -3) >= calendarDate.slice(0, -3)
         : disabledDate.slice(0, 4) >= date[standard].title().slice(0, 4);
-    }
-  };
-
-  const rightArrow = () => {
-    if (disabledDates) {
-      if (!disabledDates[1]) return false;
-
-      const { year, month, unit } = date[standard];
-
-      const disabledDate = converToProperDeafultFormat(disabledDates[1], format);
-      const calendarDate = convertDateFormat(year, month);
-
+    } else {
       return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
-        ? disabledDate > calendarDate
-        : disabledDate.slice(0, 4) <= date[standard].title().slice(0, 4);
+        ? disabledDate.slice(0, -3) <= calendarDate.slice(0, -3)
+        : disabledDate.slice(0, 4) >= date[standard].title().slice(0, 4);
     }
   };
 
   return (
     <div className='calendarHeaderWrapper'>
-      {leftArrow() ? (
+      {disabledDates && arrowCondition(disabledDates[0], EDirection.LEFT) ? (
         <div className='calendarHeaderBtn disabled' />
       ) : (
         <button
@@ -91,7 +53,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
         {date[standard].title()}
       </div>
 
-      {rightArrow() ? (
+      {disabledDates && arrowCondition(disabledDates[1], EDirection.RIGHT) ? (
         <div className='calendarHeaderBtn disabled' />
       ) : (
         <button
