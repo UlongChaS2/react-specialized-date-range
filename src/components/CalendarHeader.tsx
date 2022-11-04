@@ -1,7 +1,13 @@
 import * as React from "react";
 import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
 
-import { findSpecialCharacterStr, translateOneToTenFormat } from "../utils/dateFormat";
+import {
+  findSpecialCharacterStr,
+  checkYYYYMMDD,
+  checkMMDDYYYY,
+  converToProperDeafultFormat,
+  convertDateFormat,
+} from "../utils/dateFormat";
 import { EDirection, ELanguage, EUnit, ICalendarProps } from "../@types/date";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import i18n from "../lang/i18n";
@@ -20,10 +26,10 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
       month: 0,
     };
 
-    if (format.startsWith("Y") || format.startsWith("y")) {
+    if (checkYYYYMMDD(format)) {
       disabledDate.year = +date.slice(0, 4);
       disabledDate.month = +date.slice(5, 7);
-    } else if (format.startsWith("M") || format.startsWith("m")) {
+    } else if (checkMMDDYYYY(format)) {
       disabledDate.year = +date.slice(-4);
       disabledDate.month = +date.slice(0, 2);
     } else {
@@ -36,37 +42,31 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
 
   const leftArrow = () => {
     if (disabledDates) {
-      if (
-        (date[standard].unit === EUnit.MONTH && i18n.language !== ELanguage.EN) ||
-        date[standard].unit === EUnit.DAY
-      ) {
-        if (!disabledDates[0]) return false;
+      if (!disabledDates[0]) return false;
 
-        const { year, month } = commonArrow(disabledDates[0]);
-        return new Date(year, month) >= new Date(date[standard].year, date[standard].month);
-      } else {
-        return format.startsWith("Y") || format.startsWith("y")
-          ? +disabledDates[0].slice(0, 4) >= date[standard].title().slice(0, 4)
-          : +disabledDates[0].slice(-4) >= date[standard].title().slice(0, 4);
-      }
+      const { year, month, unit } = date[standard];
+
+      const disabledDate = converToProperDeafultFormat(disabledDates[0], format);
+      const calendarDate = convertDateFormat(year, month);
+
+      return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
+        ? disabledDate < calendarDate
+        : disabledDate.slice(0, 4) >= date[standard].title().slice(0, 4);
     }
   };
 
   const rightArrow = () => {
     if (disabledDates) {
-      if (
-        (date[standard].unit === EUnit.MONTH && i18n.language !== ELanguage.EN) ||
-        date[standard].unit === EUnit.DAY
-      ) {
-        if (!disabledDates[1]) return false;
+      if (!disabledDates[1]) return false;
 
-        const { year, month } = commonArrow(disabledDates[1]);
-        return new Date(year, month) <= new Date(date[standard].year, date[standard].month);
-      }
+      const { year, month, unit } = date[standard];
 
-      if (format.startsWith("Y") || format.startsWith("y"))
-        return +disabledDates[1].slice(0, 4) <= date[standard].title().slice(-4);
-      else return +disabledDates[1].slice(-4) <= date[standard].title().slice(0, 4);
+      const disabledDate = converToProperDeafultFormat(disabledDates[1], format);
+      const calendarDate = convertDateFormat(year, month);
+
+      return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
+        ? disabledDate > calendarDate
+        : disabledDate.slice(0, 4) <= date[standard].title().slice(0, 4);
     }
   };
 

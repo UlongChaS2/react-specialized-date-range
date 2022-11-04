@@ -1,15 +1,13 @@
 import * as React from "react";
 import {
-  onChangeDateByCalendar,
   onChangeTitle,
   onChangeBiggerUnit,
   onChangeMonth,
   onChangeYearOrDecade,
-  onChangeDateByInput,
+  onChangeDate,
   setSelectDate,
 } from "../utils/date";
 import { IDateContextActions, IDateContextValues } from "../@types/dateContext";
-import { IDay } from "../@types/date";
 import { initialDateAction, initialDateState } from "../utils/constants/initialContext";
 
 export const DateValuesContext = React.createContext<IDateContextValues>(initialDateState);
@@ -32,11 +30,8 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
           [standard]: onChangeTitle(prev[standard], arrow),
         }));
       },
-      changeHighlightDateByCalendar(standard: string, seletedDay: IDay, format: string) {
-        setDate((prev) => onChangeDateByCalendar(prev, standard, seletedDay, format));
-      },
-      changeHighlightDateByInput(standard: string, dateStr: string, format: string) {
-        setDate((prev) => onChangeDateByInput(prev, standard, dateStr, format));
+      changeHighlightDate(standard: string, dateStr: string, format: string, type: string) {
+        setDate((prev) => onChangeDate(prev, standard, dateStr, format, type));
       },
       changeMonth(standard: string, index: number) {
         setDate((prev) => ({

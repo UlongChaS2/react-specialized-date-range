@@ -1,6 +1,12 @@
 import { EStandard, EUnit, IDate } from "../@types/date";
 import { IDateContextValues } from "../@types/dateContext";
-import { dateFormat, findSpecialCharacterStr, translateOneToTenFormat } from "./dateFormat";
+import {
+  converToProperDeafultFormat,
+  convertDateFormat,
+  findDayInStr,
+  findMonthInStr,
+  findYearInStr,
+} from "./dateFormat";
 import { refer } from "./dateOption";
 import { changeCentury, changeDecade, changeMonth, changeYear } from "./dateTitle";
 
@@ -23,99 +29,46 @@ export const onChangeBiggerUnit = (prevDate: IDate) => {
   return { ...prevDate, unit };
 };
 
-export const onChangeDateByCalendar = (
+export const onChangeDate = (
   prevDate: IDateContextValues,
   standard: string,
-  clickedDate: any,
-  format: string
+  str: string,
+  format: string,
+  type: string
 ) => {
+  if (!str) return { ...prevDate, [standard]: { ...prevDate[standard], selectedDate: "" } };
+
   const { selectedDate } = prevDate[refer(standard)];
+  let selectedYear = findYearInStr(str, format);
+  let selectedMonth = findMonthInStr(str, format);
+  const selectedDay = findDayInStr(str, format);
 
-  const clickedDateArr = clickedDate.date.split(findSpecialCharacterStr(format));
-  let selectedYear =
-    format.startsWith("Y") || format.startsWith("y") ? +clickedDateArr[0] : +clickedDateArr[2];
-
-  let selectedMonth =
-    format.startsWith("M") || format.startsWith("m") ? +clickedDateArr[0] : +clickedDateArr[1];
-
-  const selectedDay =
-    format.startsWith("Y") || format.startsWith("y")
-      ? +clickedDateArr[2]
-      : format.startsWith("M") || format.startsWith("m")
-      ? +clickedDateArr[1]
-      : +clickedDateArr[0];
-
-  if (selectedMonth) {
+  if (type === "calendar") {
     if (selectedMonth === 13) {
       selectedYear++;
       selectedMonth = 1;
+    } else if (!selectedMonth) {
+      selectedYear--;
+      selectedMonth = 12;
     }
-  } else {
-    selectedYear--;
-    selectedMonth = 12;
   }
 
   let newSelectedDate = {
     year: selectedYear,
-    month: selectedMonth,
-    selectedDate: dateFormat(format, selectedYear, selectedMonth, selectedDay),
-  };
-
-  if (
-    standard !== EStandard.SINGLE &&
-    ((refer(standard) === EStandard.ENDDATE && clickedDate.date > selectedDate) ||
-      (refer(standard) === EStandard.STARTDATE && clickedDate.date < selectedDate))
-  ) {
-    return {
-      ...prevDate,
-      [standard]: { ...prevDate[standard], ...newSelectedDate },
-      [refer(standard)]: { ...prevDate[refer(standard)], selectedDate: "" },
-    };
-  }
-
-  return { ...prevDate, [standard]: { ...prevDate[standard], ...newSelectedDate } };
-};
-
-export const onChangeDateByInput = (
-  prevDate: IDateContextValues,
-  standard: string,
-  str: string,
-  format: string
-) => {
-  const { selectedDate } = prevDate[refer(standard)];
-
-  const selectedDateArr = str.split(findSpecialCharacterStr(format));
-  const selectedYear =
-    format.startsWith("Y") || format.startsWith("y") ? selectedDateArr[0] : selectedDateArr[2];
-
-  const selectedMonth =
-    format.startsWith("M") || format.startsWith("m") ? selectedDateArr[0] : selectedDateArr[1];
-
-  const selectedDay =
-    format.startsWith("Y") || format.startsWith("y")
-      ? selectedDateArr[2]
-      : format.startsWith("M") || format.startsWith("m")
-      ? selectedDateArr[1]
-      : selectedDateArr[0];
-
-  let newSelectedDate = {
-    year: Number(selectedYear),
-    month: Number(selectedMonth) < 13 ? Number(selectedMonth) : 12,
+    month: selectedMonth < 13 ? selectedMonth : 12,
     selectedDate:
-      Number(selectedMonth) < 13 ? str : dateFormat(format, +selectedYear, 12, +selectedDay),
+      type === "input"
+        ? convertDateFormat(selectedYear, 12, selectedDay, format)
+        : convertDateFormat(selectedYear, selectedMonth, selectedDay, format),
   };
 
-  if (!str) {
-    return {
-      ...prevDate,
-      [standard]: { ...prevDate[standard], selectedDate: "" },
-    };
-  }
+  const referSelcetedDate = converToProperDeafultFormat(selectedDate, format);
+  const writenDate = converToProperDeafultFormat(str, format);
 
   if (
     standard !== EStandard.SINGLE &&
-    ((refer(standard) === EStandard.ENDDATE && str > selectedDate) ||
-      (refer(standard) === EStandard.STARTDATE && str < selectedDate))
+    ((refer(standard) === EStandard.ENDDATE && writenDate > referSelcetedDate) ||
+      (refer(standard) === EStandard.STARTDATE && writenDate < referSelcetedDate))
   ) {
     return {
       ...prevDate,

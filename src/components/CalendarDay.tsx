@@ -10,7 +10,7 @@ import { refer } from "../utils/dateOption";
 import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarDayProps, IDay } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { dateFormatYYYYMMDD, onlyNum, transformDDMMYYYYtoMMDDYYYY } from "../utils/dateFormat";
+import { converToProperDeafultFormat } from "../utils/dateFormat";
 
 export default function CalendarDay({ standard, year, month, selectedDate }: ICalendarDayProps) {
   const date: IDateContextValues = useDateValuesContext();
@@ -30,33 +30,21 @@ export default function CalendarDay({ standard, year, month, selectedDate }: ICa
   const { days } = useDay({ year, month, locale, reorderWeekDays, format });
 
   const handleClickDay = (day: IDay) => {
-    if (!disabledDates) return actions.changeHighlightDateByCalendar(standard, day, format);
+    if (!disabledDates) return actions.changeHighlightDate(standard, day.date, format, "calendar");
 
-    let startDisabledDate = disabledDates[0];
-    let endDisabledDate = disabledDates[1];
-    let selecteDay = day.date;
-
-    if (format.startsWith("D") || format.startsWith("d")) {
-      startDisabledDate = transformDDMMYYYYtoMMDDYYYY(startDisabledDate);
-      endDisabledDate = transformDDMMYYYYtoMMDDYYYY(endDisabledDate);
-      selecteDay = transformDDMMYYYYtoMMDDYYYY(selecteDay);
-    }
+    const startDisabledDate = converToProperDeafultFormat(disabledDates[0], format);
+    const endDisabledDate = converToProperDeafultFormat(disabledDates[1], format);
+    const selecteDay = converToProperDeafultFormat(day.date, format);
 
     (!disabledDates[0] || startDisabledDate < selecteDay) &&
       (!disabledDates[1] || selecteDay < endDisabledDate) &&
-      actions.changeHighlightDateByCalendar(standard, day, format);
+      actions.changeHighlightDate(standard, day.date, format, "calendar");
   };
 
   const rangeStyle = (day: string) => {
-    let startSelected = date.startDate.selectedDate;
-    let endSelected = date.endDate.selectedDate;
-    let dayEl = day;
-
-    if (format.startsWith("D") || format.startsWith("d")) {
-      startSelected = transformDDMMYYYYtoMMDDYYYY(startSelected);
-      endSelected = transformDDMMYYYYtoMMDDYYYY(endSelected);
-      dayEl = transformDDMMYYYYtoMMDDYYYY(dayEl);
-    }
+    const startSelected = converToProperDeafultFormat(date.startDate.selectedDate, format);
+    const endSelected = converToProperDeafultFormat(date.endDate.selectedDate, format);
+    const dayEl = converToProperDeafultFormat(day, format);
 
     return date.startDate.selectedDate && startSelected < dayEl && dayEl < endSelected;
   };

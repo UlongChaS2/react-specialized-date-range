@@ -1,6 +1,6 @@
 import { IDate, IDay } from "../../@types/date";
 import { IDatePickerContextValues } from "../../@types/dateContext";
-import { convertTitleToUnit, dateFormat, findSpecialCharacterStr } from "../dateFormat";
+import { convertTitleToUnit, convertDateFormat, findSpecialCharacterStr } from "../dateFormat";
 import { thisDay, thisMonth, thisYear } from "./date";
 
 const defaultDateOption: IDate = {
@@ -10,7 +10,7 @@ const defaultDateOption: IDate = {
   },
   year: thisYear,
   month: thisDay === 1 ? thisMonth - 1 : thisMonth,
-  today: dateFormat(),
+  today: convertDateFormat(),
   selectedDate: "",
 };
 
@@ -23,8 +23,7 @@ export const initialDateState = {
 export const initialDateAction = {
   changeBiggerUnit(standard: string) {},
   changeTitle(standard: string, arrow: string) {},
-  changeHighlightDateByCalendar(standard: string, seletedDay: IDay, format: string) {},
-  changeHighlightDateByInput(standard: string, dateStr: string, format: string) {},
+  changeHighlightDate(standard: string, dateStr: string, format: string, type: string) {},
   changeMonth(standard: string, index: number) {},
   changeYear(standard: string, year: number) {},
   changeDecade(standard: string, decade: number) {},

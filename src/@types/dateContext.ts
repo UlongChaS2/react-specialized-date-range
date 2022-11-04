@@ -10,8 +10,7 @@ export interface IDateContextValues {
 export interface IDateContextActions {
   changeBiggerUnit: (standard: string) => void;
   changeTitle: (standard: string, arrow: string) => void;
-  changeHighlightDateByCalendar: (standard: string, seletedDay: IDay, format: string) => void;
-  changeHighlightDateByInput: (standard: string, dateStr: string, format: string) => void;
+  changeHighlightDate: (standard: string, dateStr: string, format: string, type: string) => void;
   changeMonth: (standard: string, index: number) => void;
   changeYear: (standard: string, year: number) => void;
   changeDecade: (standard: string, decade: number) => void;

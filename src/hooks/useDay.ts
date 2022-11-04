@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { weekDays } from "../utils/constants/date";
-import { dateFormat, getWeekday, todayDashFormat } from "../utils/dateFormat";
+import { convertDateFormat, getWeekday } from "../utils/dateFormat";
 import { IDay } from "../@types/date";
 
 interface IUseDayPrams {
@@ -28,7 +27,7 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
     const daysArr = [];
     for (let i = 1; i <= 42; i++) {
       if (i > paddingDays && i <= lastDayOfMonth + paddingDays) {
-        const dateStr = dateFormat(format, year, month, i - paddingDays);
+        const dateStr = convertDateFormat(year, month, i - paddingDays, format);
 
         daysArr.push({
           value: i - paddingDays,
@@ -37,7 +36,12 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
           weekday: getWeekday(year, month - 1, i - paddingDays, locale),
         });
       } else if (i >= lastDayOfMonth) {
-        const dateStr = dateFormat(format, year, month + 1, i - (paddingDays + lastDayOfMonth));
+        const dateStr = convertDateFormat(
+          year,
+          month + 1,
+          i - (paddingDays + lastDayOfMonth),
+          format
+        );
 
         daysArr.push({
           value: i - (paddingDays + lastDayOfMonth),
@@ -47,7 +51,12 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
         });
       } else {
         const lastDayOfLastMonth = new Date(year, month - 1, 0).getDate();
-        const dateStr = dateFormat(format, year, month - 1, lastDayOfLastMonth - paddingDays + i);
+        const dateStr = convertDateFormat(
+          year,
+          month - 1,
+          lastDayOfLastMonth - paddingDays + i,
+          format
+        );
 
         daysArr.push({
           value: lastDayOfLastMonth - paddingDays + i,
