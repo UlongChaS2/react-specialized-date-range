@@ -1,15 +1,14 @@
 import * as React from "react";
-import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useDateContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
 import i18n from "../lang/i18n";
 import { convertToDeafultFormat, convertDateFormat } from "../utils/dateFormat";
 import { EDirection, ELanguage, EUnit, ICalendarProps } from "../@types/date";
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
+import { IDatePickerContextValues } from "../@types/dateContext";
 
 export default function CalendarHeader({ standard }: ICalendarProps) {
-  const date: IDateContextValues = useDateValuesContext();
-  const actions = useDateActionsContext();
+  const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, format } = option;
 
@@ -24,11 +23,11 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
     if (direction === EDirection.LEFT) {
       return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
         ? disabledDate.slice(0, -3) >= calendarDate.slice(0, -3)
-        : disabledDate.slice(0, 4) >= date[standard].title().slice(0, 4);
+        : disabledDate.slice(0, 4) >= (date[standard].title() as string).slice(0, 4);
     } else {
       return (unit === EUnit.MONTH && i18n.language !== ELanguage.EN) || unit === EUnit.DAY
         ? disabledDate.slice(0, -3) <= calendarDate.slice(0, -3)
-        : disabledDate.slice(0, 4) >= date[standard].title().slice(0, 4);
+        : disabledDate.slice(0, 4) >= (date[standard].title() as string).slice(0, 4);
     }
   };
 
@@ -39,7 +38,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
       ) : (
         <button
           className='calendarHeaderBtn'
-          onClick={() => actions.changeTitle(standard, EDirection.LEFT)}
+          onClick={() => action.changeTitle(standard, EDirection.LEFT)}
         >
           {"«"}
         </button>
@@ -47,7 +46,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
 
       <div
         role='title'
-        onClick={() => actions.changeBiggerUnit(standard)}
+        onClick={() => action.changeBiggerUnit(standard)}
         className='calendarHeaderTitle'
       >
         {date[standard].title()}
@@ -58,7 +57,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
       ) : (
         <button
           className='calendarHeaderBtn'
-          onClick={() => actions.changeTitle(standard, EDirection.RIGHT)}
+          onClick={() => action.changeTitle(standard, EDirection.RIGHT)}
         >
           {"»"}
         </button>

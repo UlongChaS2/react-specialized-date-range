@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import { getByTestId, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import DateInput from "../components/DateInput";
-import renderWithi18next from "../utils/renderWithi18next";
 import i18n from "../lang/i18n";
 import { ELanguage, EStandard } from "../@types/date";
 

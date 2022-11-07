@@ -10,11 +10,13 @@ import {
 import { refer } from "./dateOption";
 import { changeCentury, changeDecade, changeMonth, changeYear } from "./dateTitle";
 
-export const onChangeTitle = (prevDate: IDate, arrow: string) => {
+export const onChangeTitle = (prevDate: IDate, arrow: string): IDate => {
   if (prevDate.unit === EUnit.DAY) return changeMonth(prevDate, arrow);
   if (prevDate.unit === EUnit.MONTH) return changeYear(prevDate, arrow);
   if (prevDate.unit === EUnit.YEAR) return changeDecade(prevDate, arrow);
   if (prevDate.unit === EUnit.DECADE) return changeCentury(prevDate, arrow);
+
+  return prevDate;
 };
 
 export const onChangeBiggerUnit = (prevDate: IDate): IDate => {
@@ -90,18 +92,19 @@ export const onChangeYearOrDecade = (prevDate: IDate, year: number): IDate => {
 export const onSetSelectDate = (
   prevDate: IDateContextValues,
   double: boolean,
-  value: string[]
+  value: string[],
+  format: string
 ): IDateContextValues => {
   if (double) {
     return {
       ...prevDate,
-      startDate: getDate(prevDate.single, value[0]),
-      endDate: getDate(prevDate.single, value[1]),
+      startDate: getDate(prevDate.startDate, value[0], format),
+      endDate: getDate(prevDate.endDate, value[1], format),
     };
   } else {
     return {
       ...prevDate,
-      single: getDate(prevDate.single, value[0]),
+      single: getDate(prevDate.single, value[0], format),
     };
   }
 };
@@ -128,22 +131,11 @@ export const onSetToDisabledEndDate = (
   }
 };
 
-const getDate = (prev: IDate, value: string) => {
+const getDate = (prev: IDate, value: string, format: string) => {
   return {
     ...prev,
     selectedDate: value,
-    year: getYear(prev, value),
-    month: getMonth(prev, value),
+    year: findYearInStr(value, format) ? findYearInStr(value, format) : prev.year,
+    month: findMonthInStr(value, format) ? findMonthInStr(value, format) : prev.month,
   };
-};
-
-const getYear = (prev: IDate, value: string) => {
-  if (!value) return prev.year;
-
-  return Number(value.split("-")[0]);
-};
-
-const getMonth = (prev: IDate, value: string) => {
-  if (!value) return prev.month;
-  return Number(value.split("-")[1]);
 };

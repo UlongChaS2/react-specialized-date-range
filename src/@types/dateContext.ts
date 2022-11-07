@@ -1,10 +1,10 @@
-import { IDate, IDay } from "./date";
+import { IDate } from "./date";
 
 export interface IDateContextValues {
   startDate: IDate;
   endDate: IDate;
   single: IDate;
-  [key: string]: any;
+  [key: string]: IDate;
 }
 
 export interface IDateContextActions {
@@ -14,8 +14,13 @@ export interface IDateContextActions {
   changeMonth: (standard: string, index: number) => void;
   changeYear: (standard: string, year: number) => void;
   changeDecade: (standard: string, decade: number) => void;
-  setSelectedDate: (double: boolean, value?: string[]) => void;
+  setSelectedDate: (double: boolean, value: string[], format: string) => void;
   setToDisabledEndDate: (double: boolean, disabledEndDate: string) => void;
+}
+
+export interface IDateContext {
+  value: IDateContextValues;
+  action: IDateContextActions;
 }
 
 export interface IDatePickerContextValues {
@@ -30,7 +35,7 @@ export interface IDatePickerContextValues {
   locale?: string;
   placeholder: string;
   readOnly?: boolean;
-  value?: string[];
+  value: string[];
   formatSeparator: () => string;
   onChange: (e: any) => void;
 }

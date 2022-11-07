@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useDateContext } from "../hooks/useDateContext";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -9,12 +9,11 @@ import {
   formattingNumToDate,
 } from "../utils/dateFormat";
 import { EMode, EStandard, EType, IDateInputProps } from "../@types/date";
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
+import { IDatePickerContextValues } from "../@types/dateContext";
 
 export default function DateInput({ standard, setIsActive, value }: IDateInputProps) {
   const { t } = useTranslation();
-  const date: IDateContextValues = useDateValuesContext();
-  const actions = useDateActionsContext();
+  const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, placeholder, mode, format } = option;
 
@@ -61,14 +60,12 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
           // NOTE: 설정한 날짜 범위가 아닐 경우 제일 마지막으로 설정했던 값으로 변한다. <초기화 시킬 수 있음>
 
           if (!disabledDates || !newDate)
-            return actions.changeHighlightDate(standard, newDate, format, EType.INPUT);
-
-          console.log("newDate", newDate);
+            return action.changeHighlightDate(standard, newDate, format, EType.INPUT);
 
           disabledDateStart < writeDay && (writeDay < disabledDateEnd || !disabledDateEnd)
-            ? actions.changeHighlightDate(standard, newDate, format, EType.INPUT)
-            : setText("");
-          // : setText(date[standard].selectedDate);
+            ? action.changeHighlightDate(standard, newDate, format, EType.INPUT)
+            : action.changeHighlightDate(standard, "", format, EType.INPUT);
+          // : action.changeHighlightDate(standard, date[standard].selectedDate, format, EType.INPUT);
         }
       }
     },

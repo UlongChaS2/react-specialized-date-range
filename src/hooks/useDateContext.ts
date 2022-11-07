@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DateActionsContext, DateValuesContext } from "../context/DateProvider";
+import { DateActionsContext, DateContext, DateValuesContext } from "../context/DateProvider";
 
 function useDateValuesContext() {
   const context = React.useContext(DateValuesContext);
@@ -17,4 +17,13 @@ function useDateActionsContext() {
   return context;
 }
 
-export { useDateValuesContext, useDateActionsContext };
+function useDateContext() {
+  const context = React.useContext(DateContext);
+
+  if (context === undefined)
+    throw new Error("useDateContext should be used within DateContext.Provider");
+
+  return context;
+}
+
+export { useDateValuesContext, useDateActionsContext, useDateContext };

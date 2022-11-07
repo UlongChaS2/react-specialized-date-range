@@ -1,26 +1,24 @@
 import * as React from "react";
 import useDay from "../hooks/useDay";
-import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useDateContext } from "../hooks/useDateContext";
 import { useTranslation } from "react-i18next";
 
 import i18n from "../lang/i18n";
 
 import { weekDays } from "../utils/constants/date";
-import { refer } from "../utils/dateOption";
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
-import { EType, ICalendarDayProps, IDate, IDay } from "../@types/date";
+import { IDatePickerContextValues } from "../@types/dateContext";
+import { EType, ICalendarDayProps, IDay } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import { convertToDeafultFormat } from "../utils/dateFormat";
 
 export default function CalendarDay({ standard, year, month }: ICalendarDayProps) {
-  const date: IDateContextValues = useDateValuesContext();
-  const actions = useDateActionsContext();
+  const { t } = useTranslation();
+  const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, locale = i18n.language, startDayOfWeek, format } = option;
   const formattingDisabledDates = disabledDates?.map((item) =>
     convertToDeafultFormat(item, format)
   );
-  const { t } = useTranslation();
 
   const reorderWeekDays =
     startDayOfWeek && startDayOfWeek !== "Sunday"
@@ -33,13 +31,13 @@ export default function CalendarDay({ standard, year, month }: ICalendarDayProps
 
   const handleClickDay = (day: string) => {
     if (!disabledDates || !formattingDisabledDates)
-      return actions.changeHighlightDate(standard, day, format, EType.CALENDAR);
+      return action.changeHighlightDate(standard, day, format, EType.CALENDAR);
 
     const selecteDay = convertToDeafultFormat(day, format);
 
     (!disabledDates[0] || formattingDisabledDates[0] < selecteDay) &&
       (!disabledDates[1] || selecteDay < formattingDisabledDates[1]) &&
-      actions.changeHighlightDate(standard, day, format, EType.CALENDAR);
+      action.changeHighlightDate(standard, day, format, EType.CALENDAR);
   };
 
   const rangeStyle = (day: string) => {
@@ -75,8 +73,8 @@ export default function CalendarDay({ standard, year, month }: ICalendarDayProps
           days.map((day, index) => (
             <div
               className={`calendarDateDayUnitContent ${
-                (date[standard].selectedDate === day.date ||
-                  date[refer(standard)].selectedDate === day.date) &&
+                (date.startDate.selectedDate === day.date ||
+                  date.endDate.selectedDate === day.date) &&
                 "highlight"
               } ${rangeStyle(day.date) && "range"} ${
                 day.weekday === t("weekDays.Saturday") && "saturday"

@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom";
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, renderHook } from "@testing-library/react";
 import CalendarHeader from "../components/CalendarHeader";
+import { useDateValuesContext } from "../hooks/useDateContext";
 import { EStandard } from "../@types/date";
 import { months, thisDay, thisMonth, thisYear } from "../utils/constants/date";
 import i18n from "../lang/i18n";
@@ -24,6 +25,8 @@ describe("CalendarHeader btn test", () => {
 
   it("title의 달이 왼쪽 화살표 버튼 눌렀을 때 작월로 보여야한다.", () => {
     const { getByText, getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />);
+    // const { result } = renderHook(() => useDateValuesContext());
+    // console.log(result);
 
     const leftArrowBtn = getByText("«");
     const title = getByRole("title");

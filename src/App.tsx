@@ -16,7 +16,7 @@ const datePickerProps = {
   // disabledDates: ["2020-01-08", "2022-12-15"],
   // disabledDates: ["01-10-2022", ""],
   // disabledDates: ["", "01-10-2022"],
-  disabledDates: ["08-01-2020", "15-10-2022"],
+  disabledDates: ["01-01-1900", "31-11-2022"],
   // disabledDates: ["10-01-2022", ""],
   // disabledDates: ["", "10-01-2022"],
   // disabledDates: ["01-08-2020", "12-15-2022"],
@@ -28,6 +28,7 @@ const datePickerProps = {
   placeholder: "DD-MM-YYYY",
   // placeholder: "MM-DD-YYYY",
   // placement: "top",
+  // value: ["01-02-2020", ""],
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

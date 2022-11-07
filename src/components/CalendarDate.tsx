@@ -1,17 +1,16 @@
 import * as React from "react";
 
-import { useDateValuesContext } from "../hooks/useDateContext";
+import { useDateContext } from "../hooks/useDateContext";
 
 import CalendarDay from "./CalendarDay";
 import CalendarMonth from "./CalendarMonth";
 import CalendarYear from "./CalendarYear";
 import CalendarDecade from "./CalendarDecade";
 
-import { IDateContextValues } from "../@types/dateContext";
 import { EUnit, ICalendarProps } from "../@types/date";
 
 export default function CalendarDate({ standard }: ICalendarProps) {
-  const date: IDateContextValues = useDateValuesContext();
+  const { value: date } = useDateContext();
   const { year, month, selectedDate } = date[standard];
 
   return (

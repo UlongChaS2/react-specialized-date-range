@@ -1,13 +1,18 @@
 import "@testing-library/jest-dom";
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, renderHook, screen } from "@testing-library/react";
+import { useDateContext } from "../hooks/useDateContext";
+
 import DateInput from "../components/DateInput";
-import CalendarDay from "../components/CalendarDay";
+import DateProvider from "../context/DateProvider";
+import { formattingNumToDate } from "../utils/dateFormat";
+
+import { EStandard, EType } from "../@types/date";
 
 describe("DateInput input value test", () => {
   it("has a input box", () => {
-    render(<DateInput />);
-    screen.getByRole("input");
+    const { getByRole } = render(<DateInput />);
+    getByRole("input");
   });
 
   it("matches snapshot", () => {
@@ -15,29 +20,35 @@ describe("DateInput input value test", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("if default value set input value", () => {
-    const { getByRole, getAllByText } = render(
-      <>
-        <DateInput value='2022-01-05' />
-        <CalendarDay year={2022} month={1} selectedDate='2022-01-05' />
-      </>
-    );
+  it("if custom value set input value and dateContext value", () => {
+    const customValue = "2022-01-05";
 
-    const input = getByRole("input");
-    expect(input).toHaveAttribute("value", "2022-01-05");
+    const { getByRole } = render(<DateInput value={customValue} />);
+    const { result } = renderHook(() => useDateContext(), {
+      wrapper: ({ children }) => <DateProvider>{children}</DateProvider>,
+    });
 
-    const div = getAllByText(5)[0];
-    expect(div).toHaveClass("highlight");
+    act(() => {
+      result.current.action.changeHighlightDate(
+        EStandard.STARTDATE,
+        customValue,
+        "YYYY-MM-DD",
+        EType.INPUT
+      );
+    });
+
+    expect(getByRole("input")).toHaveAttribute("value", customValue);
+    expect(result.current.value.startDate.selectedDate).toBe(customValue);
   });
 
   it("should change a value when write in input box", () => {
-    render(<DateInput />);
+    const { getByRole } = render(<DateInput />);
+    const input = getByRole("input");
 
-    const input = screen.getByRole("input");
-    fireEvent.change(input, {
-      target: { value: "20220101" },
-    });
+    fireEvent.change(input, { target: { value: "20220101" } });
 
+    expect(formattingNumToDate("20220101", "YYYY-MM-DD")).not.toBe("20220101");
+    expect(formattingNumToDate("20220101", "YYYY-MM-DD")).toBe("2022-01-01");
     expect(input).toHaveAttribute("value", "2022-01-01");
   });
 });

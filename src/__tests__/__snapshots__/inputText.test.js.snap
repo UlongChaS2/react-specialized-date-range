@@ -7,7 +7,6 @@ exports[`DateInput input value test matches snapshot 1`] = `
   >
     <label
       class="inputLabel"
-      data-testid="undefined"
       role="label"
     >
       end date:
@@ -17,7 +16,7 @@ exports[`DateInput input value test matches snapshot 1`] = `
     >
       <input
         class="inputValue"
-        placeholder="YYYY-MM-DD"
+        placeholder=""
         role="input"
         type="text"
         value=""

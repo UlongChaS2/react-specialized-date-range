@@ -8,11 +8,17 @@ import {
   onSetSelectDate,
   onSetToDisabledEndDate,
 } from "../utils/date";
-import { IDateContextActions, IDateContextValues } from "../@types/dateContext";
-import { initialDateAction, initialDateState } from "../utils/constants/initialContext";
+import { IDateContext, IDateContextActions, IDateContextValues } from "../@types/dateContext";
+import {
+  initialDate,
+  initialDateAction,
+  initialDateState,
+} from "../utils/constants/initialContext";
 
 export const DateValuesContext = React.createContext<IDateContextValues>(initialDateState);
 export const DateActionsContext = React.createContext<IDateContextActions>(initialDateAction);
+
+export const DateContext = React.createContext<IDateContext>(initialDate);
 
 const DateProvider = ({ children }: { children: React.ReactNode }) => {
   const [date, setDate] = React.useState<IDateContextValues>(initialDateState);
@@ -52,8 +58,8 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
           [standard]: onChangeYearOrDecade(prev[standard], decade),
         }));
       },
-      setSelectedDate(double: boolean, value?: string[]) {
-        setDate((prev) => (value ? onSetSelectDate(prev, double, value) : prev));
+      setSelectedDate(double: boolean, value: string[], format: string) {
+        setDate((prev) => (value ? onSetSelectDate(prev, double, value, format) : prev));
       },
       setToDisabledEndDate(double: boolean, disabledEndDate: string) {
         setDate((prev) => onSetToDisabledEndDate(prev, double, disabledEndDate));
@@ -62,10 +68,13 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
     []
   );
 
+  // return (
+  //   <DateActionsContext.Provider value={actions}>
+  //     <DateValuesContext.Provider value={date}>{children}</DateValuesContext.Provider>
+  //   </DateActionsContext.Provider>
+  // );
   return (
-    <DateActionsContext.Provider value={actions}>
-      <DateValuesContext.Provider value={date}>{children}</DateValuesContext.Provider>
-    </DateActionsContext.Provider>
+    <DateContext.Provider value={{ value: date, action: actions }}>{children}</DateContext.Provider>
   );
 };
 

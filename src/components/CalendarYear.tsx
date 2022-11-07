@@ -1,15 +1,14 @@
 import * as React from "react";
 import useYear from "../hooks/useYear";
-import { useDateActionsContext, useDateValuesContext } from "../hooks/useDateContext";
+import { useDateContext } from "../hooks/useDateContext";
 
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
+import { IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import { convertToDeafultFormat, findYearInStr } from "../utils/dateFormat";
 
 export default function CalendarYear({ standard }: ICalendarProps) {
-  const date: IDateContextValues = useDateValuesContext();
-  const actions = useDateActionsContext();
+  const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
   const { disabledDates, format } = option;
 
@@ -24,7 +23,7 @@ export default function CalendarYear({ standard }: ICalendarProps) {
     disabledYear &&
       disabledYear[0] <= year &&
       (year <= disabledYear[1] || !disabledYear[1]) &&
-      actions.changeYear(standard, year);
+      action.changeYear(standard, year);
   };
 
   return (

@@ -27,8 +27,13 @@ export const initialDateAction = {
   changeMonth(standard: string, index: number) {},
   changeYear(standard: string, year: number) {},
   changeDecade(standard: string, decade: number) {},
-  setSelectedDate(double: boolean, value?: string[]) {},
+  setSelectedDate(double: boolean, value: string[], format: string) {},
   setToDisabledEndDate(double: boolean, disabledEndDate: string) {},
+};
+
+export const initialDate = {
+  value: initialDateState,
+  action: initialDateAction,
 };
 
 export const initialDateOptionState = {

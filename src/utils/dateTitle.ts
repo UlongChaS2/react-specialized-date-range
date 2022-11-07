@@ -1,6 +1,6 @@
 import { IDate } from "../@types/date";
 
-export const changeMonth = (prevDate: IDate, arrow: string) => {
+export const changeMonth = (prevDate: IDate, arrow: string): IDate => {
   const num = arrow === "left" ? -1 : 1;
   let dayTitle = { year: prevDate.year, month: prevDate.month };
 
