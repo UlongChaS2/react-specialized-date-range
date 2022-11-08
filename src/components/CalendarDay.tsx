@@ -50,11 +50,12 @@ export default function CalendarDay({ standard, year, month }: ICalendarDayProps
 
   const disabledStyle = (day: IDay) => {
     return (
-      formattingDisabledDates &&
-      (day.isCurrentDay !== "thisMonth" ||
-        formattingDisabledDates[0] >= convertToDeafultFormat(day.date, format) ||
-        (convertToDeafultFormat(day.date, format) >= formattingDisabledDates[1] &&
-          formattingDisabledDates[1]))
+      day.isCurrentDay !== "thisMonth" ||
+      (formattingDisabledDates &&
+        formattingDisabledDates[0] >= convertToDeafultFormat(day.date, format)) ||
+      (formattingDisabledDates &&
+        convertToDeafultFormat(day.date, format) >= formattingDisabledDates[1] &&
+        formattingDisabledDates[1])
     );
   };
 

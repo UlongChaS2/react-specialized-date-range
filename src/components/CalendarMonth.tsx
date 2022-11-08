@@ -28,10 +28,12 @@ export default function CalendarMonth({ standard }: ICalendarProps) {
   );
 
   const handleClickMonth = (index: number) => {
-    disabledMonth &&
-      `${date[standard].year}-${convertToDoubleDigits(index + 1)}` >= disabledMonth[0] &&
-      (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` <= disabledMonth[1] ||
-        !disabledMonth[1]) &&
+    (!disabledMonth ||
+      (disabledMonth &&
+        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` >= disabledMonth[0] ||
+          !disabledMonth[0]) &&
+        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` <= disabledMonth[1] ||
+          !disabledMonth[1]))) &&
       action.changeMonth(standard, index);
   };
 

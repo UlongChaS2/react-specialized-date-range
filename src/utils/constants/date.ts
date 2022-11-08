@@ -1,3 +1,5 @@
+import { today } from "../dateTimeZone";
+
 export const weekDays = [
   "Sunday",
   "Monday",
@@ -23,7 +25,6 @@ export const months = [
   "December",
 ];
 
-const today = new Date();
 export const thisYear = today.getFullYear();
 export const thisMonth = today.getMonth() + 1;
 export const thisDay = today.getDate();

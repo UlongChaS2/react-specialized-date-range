@@ -2,7 +2,7 @@ import * as React from "react";
 import { useDateContext } from "../hooks/useDateContext";
 import useDecade from "../hooks/useDecade";
 
-import { IDateContextValues, IDatePickerContextValues } from "../@types/dateContext";
+import { IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import { convertToDeafultFormat, findDecadeInYear, findYearInStr } from "../utils/dateFormat";
@@ -20,9 +20,10 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
   );
 
   const handleClickDecade = (decade: number) => {
-    disabledYear &&
-      disabledYear[0] <= findDecadeInYear(decade) &&
-      (findDecadeInYear(decade) <= disabledYear[1] || !disabledYear[1]) &&
+    (!disabledYear ||
+      (disabledYear &&
+        (disabledYear[0] <= findDecadeInYear(decade) || !disabledYear[0]) &&
+        (findDecadeInYear(decade) <= disabledYear[1] || !disabledYear[1]))) &&
       action.changeDecade(standard, decade);
   };
 

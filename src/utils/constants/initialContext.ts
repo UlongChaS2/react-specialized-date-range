@@ -1,4 +1,4 @@
-import { IDate, IDay } from "../../@types/date";
+import { IDate } from "../../@types/date";
 import { IDatePickerContextValues } from "../../@types/dateContext";
 import { convertTitleToUnit, convertDateFormat, findSpecialCharacterStr } from "../dateFormat";
 import { thisDay, thisMonth, thisYear } from "./date";

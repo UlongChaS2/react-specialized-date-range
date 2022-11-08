@@ -20,9 +20,10 @@ export default function CalendarYear({ standard }: ICalendarProps) {
   );
 
   const handleClickYear = (year: number) => {
-    disabledYear &&
-      disabledYear[0] <= year &&
-      (year <= disabledYear[1] || !disabledYear[1]) &&
+    (!disabledYear ||
+      (disabledYear &&
+        (disabledYear[0] <= year || !disabledYear[0]) &&
+        (year <= disabledYear[1] || !disabledYear[1]))) &&
       action.changeYear(standard, year);
   };
 

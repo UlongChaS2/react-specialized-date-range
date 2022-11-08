@@ -8,15 +8,8 @@ import {
   onSetSelectDate,
   onSetToDisabledEndDate,
 } from "../utils/date";
-import { IDateContext, IDateContextActions, IDateContextValues } from "../@types/dateContext";
-import {
-  initialDate,
-  initialDateAction,
-  initialDateState,
-} from "../utils/constants/initialContext";
-
-export const DateValuesContext = React.createContext<IDateContextValues>(initialDateState);
-export const DateActionsContext = React.createContext<IDateContextActions>(initialDateAction);
+import { initialDate, initialDateState } from "../utils/constants/initialContext";
+import { IDateContext, IDateContextValues } from "../@types/dateContext";
 
 export const DateContext = React.createContext<IDateContext>(initialDate);
 
@@ -68,11 +61,6 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
     []
   );
 
-  // return (
-  //   <DateActionsContext.Provider value={actions}>
-  //     <DateValuesContext.Provider value={date}>{children}</DateValuesContext.Provider>
-  //   </DateActionsContext.Provider>
-  // );
   return (
     <DateContext.Provider value={{ value: date, action: actions }}>{children}</DateContext.Provider>
   );

@@ -29,6 +29,7 @@ export default function DatePickerWrapper(props: IDatePickerContextValues) {
   React.useEffect(() => {
     if (disabledDates) {
       const convertedEndDate = convertToDeafultFormat(disabledDates[1], format).slice(0, -3);
+
       convertedEndDate < convertDateFormat().slice(0, -3) &&
         dateActions.setToDisabledEndDate(double, convertedEndDate);
     }

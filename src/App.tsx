@@ -11,12 +11,12 @@ import "./assets/styles/datePicker.css";
 const datePickerProps = {
   width: "580px",
   // double: false,
-  // disabledDates: ["2022-10-01", ""]
+  // disabledDates: ["2022-10-01", ""],
   // disabledDates: ["", "2022-10-01"],
   // disabledDates: ["2020-01-08", "2022-12-15"],
   // disabledDates: ["01-10-2022", ""],
   // disabledDates: ["", "01-10-2022"],
-  disabledDates: ["01-01-1900", "31-11-2022"],
+  // disabledDates: ["01-01-1900", "31-12-2022"],
   // disabledDates: ["10-01-2022", ""],
   // disabledDates: ["", "10-01-2022"],
   // disabledDates: ["01-08-2020", "12-15-2022"],
