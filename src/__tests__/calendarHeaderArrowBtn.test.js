@@ -6,8 +6,8 @@ import { useDateContext } from "../hooks/useDateContext";
 import CalendarHeader from "../components/CalendarHeader";
 import DateProvider from "../context/DateProvider";
 
+import { months } from "../utils/constants/date";
 import { EDirection, EStandard } from "../@types/date";
-import { months, thisDay, thisMonth, thisYear } from "../utils/constants/date";
 
 describe("CalendarHeader btn test", () => {
   it("have two arrow buttons", async () => {

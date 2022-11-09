@@ -65,7 +65,6 @@ export const onChangeDate = (
 
   const referSelcetedDate = convertToDeafultFormat(selectedDate, format);
   const writenDate = convertToDeafultFormat(str, format);
-
   if (
     standard !== EStandard.SINGLE &&
     ((refer(standard) === EStandard.ENDDATE && writenDate > referSelcetedDate) ||
