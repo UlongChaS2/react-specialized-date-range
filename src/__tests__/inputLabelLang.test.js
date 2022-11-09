@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom";
 import { render, waitFor } from "@testing-library/react";
+
 import DateInput from "../components/DateInput";
 import i18n from "../lang/i18n";
+
 import { ELanguage, EStandard } from "../@types/date";
 
 describe("DateInput Label Lang test", () => {

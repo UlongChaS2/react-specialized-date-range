@@ -15,7 +15,7 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
   const { t } = useTranslation();
   const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates, placeholder, mode, format } = option;
+  const { disabledDates, placeholder, mode, format, value: setValue } = option;
 
   const [text, setText] = React.useState("");
 
@@ -24,13 +24,32 @@ export default function DateInput({ standard, setIsActive, value }: IDateInputPr
   }, []);
 
   React.useEffect(() => {
-    // NOTE: Error 관리 - format 구분자와 disabledDates의 배열 원소들의 구분자가 달랐을 때 나오는 error
     if (disabledDates) {
       const disabledDatesStart = checkSetFormatRegExr(format, disabledDates[0]);
       const disabledDatesEnd = checkSetFormatRegExr(format, disabledDates[1]);
+      const valueStart = checkSetFormatRegExr(format, setValue[0]);
+      const valueEnd = checkSetFormatRegExr(format, setValue[1]);
 
+      // NOTE: Error 관리 - format 구분자와 disabledDates의 배열 원소들의 구분자가 달랐을 때 나오는 error
       if (!disabledDatesStart || !disabledDatesEnd)
-        throw new Error("Set limits according to the format you set.");
+        throw new Error("Set disabledDates according to the format you set.");
+
+      // NOTE: Error 관리 - format 구분자와 value의 배열 원소들의 구분자가 달랐을 때 나오는 error
+      if (!valueStart || !valueEnd) throw new Error("Set value according to the format you set.");
+
+      // NOTE: Error 관리 - disabledStartDate를 startValue보다 크게 지정했을 때 error? 빈배열로?
+      // if (
+      //   convertToDeafultFormat(disabledDates[0], format) >
+      //   convertToDeafultFormat(setValue[0], format)
+      // )
+      //   throw new Error("Set value greater than disabledStartDate");
+
+      // NOTE: Error 관리 - disabledEndDate를 endValue보다 작게 지정했을 때 error? 빈배열로?
+      // if (
+      //   convertToDeafultFormat(disabledDates[1], format) >
+      //   convertToDeafultFormat(setValue[1], format)
+      // )
+      //   throw new Error("Set value smaller than disabledEndDate");
     }
   }, [disabledDates]);
 

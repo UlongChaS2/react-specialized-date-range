@@ -11,8 +11,8 @@ import "./assets/styles/datePicker.css";
 const datePickerProps = {
   width: "580px",
   // double: false,
-  // disabledDates: ["2022-10-01", ""],
-  // disabledDates: ["", "2022-10-01"],
+  disabledDates: ["2019-10-01", ""],
+  // disabledDates: ["", "2022-10-15"],
   // disabledDates: ["2020-01-08", "2022-12-15"],
   // disabledDates: ["01-10-2022", ""],
   // disabledDates: ["", "01-10-2022"],
@@ -28,6 +28,7 @@ const datePickerProps = {
   // placeholder: "DD-MM-YYYY",
   // placeholder: "MM-DD-YYYY",
   // placement: "top",
+  value: ["2020-01-02", ""],
   // value: ["01-02-2020", ""],
 };
 

@@ -6,9 +6,9 @@ import { useDateContext } from "../hooks/useDateContext";
 import CalendarHeader from "../components/CalendarHeader";
 import DateProvider from "../context/DateProvider";
 
-import { EDirection, EStandard } from "../@types/date";
+import { EStandard, EUnit } from "../@types/date";
+import { convertTitleToUnit } from "../utils/dateFormat";
 import { months, thisDay, thisMonth, thisYear } from "../utils/constants/date";
-import i18n from "../lang/i18n";
 
 describe("CalendarHeader title test", () => {
   it("has a title ", async () => {
@@ -25,5 +25,62 @@ describe("CalendarHeader title test", () => {
     expect(title).toHaveTextContent(`${months[index]} ${thisYear}`);
   });
 
-  it("What to display for the title when you click the title", () => {});
+  it("What to display for the title when you one click the title", () => {
+    const { getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />);
+    const { result } = renderHook(() => useDateContext(), {
+      wrapper: ({ children }) => <DateProvider>{children}</DateProvider>,
+    });
+    const { action } = result.current;
+
+    fireEvent.click(getByRole("title"));
+    act(() => {
+      action.changeBiggerUnit(EStandard.STARTDATE);
+    });
+
+    const { unit, year, month } = result.current.value.startDate;
+    expect(convertTitleToUnit(unit, year, month)).toBe(String(year));
+    expect(unit).toBe(EUnit.MONTH);
+  });
+
+  it("What to display for the title when you two clicks the title", () => {
+    const { getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />);
+    const { result } = renderHook(() => useDateContext(), {
+      wrapper: ({ children }) => <DateProvider>{children}</DateProvider>,
+    });
+    const { action } = result.current;
+
+    fireEvent.click(getByRole("title"));
+    fireEvent.click(getByRole("title"));
+    act(() => {
+      action.changeBiggerUnit(EStandard.STARTDATE);
+      action.changeBiggerUnit(EStandard.STARTDATE);
+    });
+
+    const { unit, year, month } = result.current.value.startDate;
+    expect(convertTitleToUnit(unit, year, month)).toBe(`${year}-${year < 0 ? year - 9 : year + 9}`);
+    expect(unit).toBe(EUnit.YEAR);
+  });
+
+  it("What to display for the title when you three clicks the title", () => {
+    const { getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />);
+    const { result } = renderHook(() => useDateContext(), {
+      wrapper: ({ children }) => <DateProvider>{children}</DateProvider>,
+    });
+    const { action } = result.current;
+
+    fireEvent.click(getByRole("title"));
+    fireEvent.click(getByRole("title"));
+    fireEvent.click(getByRole("title"));
+    act(() => {
+      action.changeBiggerUnit(EStandard.STARTDATE);
+      action.changeBiggerUnit(EStandard.STARTDATE);
+      action.changeBiggerUnit(EStandard.STARTDATE);
+    });
+
+    const { unit, year, month } = result.current.value.startDate;
+    expect(convertTitleToUnit(unit, year, month)).toBe(
+      `${year}-${year < 0 ? year - 90 : year + 90}`
+    );
+    expect(unit).toBe(EUnit.DECADE);
+  });
 });

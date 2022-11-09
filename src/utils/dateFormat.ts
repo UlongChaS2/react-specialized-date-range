@@ -62,8 +62,8 @@ const translateTitleToEn = (year: number, month: number) => `${months[month - 1]
 const translateTitleToJa = (year: number, month: number) => `${year}年 ${month}月`;
 
 export const convertTitleToUnit = (unit: string, year: number, month: number) => {
-  if (unit === EUnit.DECADE) return `${(year + "").slice(0, 2)}00-${(year + "").slice(0, 2)}90`;
-  if (unit === EUnit.YEAR) return `${(year + "").slice(0, 3)}0-${(year + "").slice(0, 3)}9`;
+  if (unit === EUnit.DECADE) return `${year}-${year < 0 ? year - 90 : year + 90}`;
+  if (unit === EUnit.YEAR) return `${year}-${year < 0 ? year - 9 : year + 9}`;
   if (unit === EUnit.MONTH) return `${year}`;
   if (unit === EUnit.DAY) {
     if (i18n.language === ELanguage.KO) return translateTitleToKo(year, month);

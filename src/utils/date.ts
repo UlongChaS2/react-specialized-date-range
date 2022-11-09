@@ -22,13 +22,20 @@ export const onChangeTitle = (prevDate: IDate, arrow: string): IDate => {
 export const onChangeBiggerUnit = (prevDate: IDate): IDate => {
   if (prevDate.unit === EUnit.DECADE) return prevDate;
 
-  let unit = prevDate.unit;
+  let unit = prevDate.unit,
+    year = prevDate.year;
 
   if (prevDate.unit === EUnit.DAY) unit = EUnit.MONTH;
-  if (prevDate.unit === EUnit.MONTH) unit = EUnit.YEAR;
-  if (prevDate.unit === EUnit.YEAR) unit = EUnit.DECADE;
+  if (prevDate.unit === EUnit.MONTH) {
+    unit = EUnit.YEAR;
+    year = Math.floor(prevDate.year / 10) * 10;
+  }
+  if (prevDate.unit === EUnit.YEAR) {
+    unit = EUnit.DECADE;
+    year = Math.floor(prevDate.year / 100) * 100;
+  }
 
-  return { ...prevDate, unit };
+  return { ...prevDate, unit, year };
 };
 
 export const onChangeDate = (
@@ -111,10 +118,11 @@ export const onSetSelectDate = (
 export const onSetToDisabledEndDate = (
   prev: IDateContextValues,
   double: boolean,
-  disabledEndDate: string
+  disabledEndDate: string,
+  format: string = "YYYY-MM-DD"
 ): IDateContextValues => {
-  const year = +disabledEndDate.slice(0, 4);
-  const month = +disabledEndDate.slice(-2);
+  const year = findYearInStr(disabledEndDate, format);
+  const month = findMonthInStr(disabledEndDate, format);
 
   if (double) {
     return {
