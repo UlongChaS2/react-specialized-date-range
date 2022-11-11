@@ -72,7 +72,7 @@ export const convertTitleToUnit = (unit: string, year: number, month: number) =>
   }
 };
 
-export const checkYYYYMMDD = (format: string) => format.startsWith("Y") || format.startsWith("Y");
+export const checkYYYYMMDD = (format: string) => format.startsWith("Y") || format.startsWith("y");
 export const checkDDMMYYYY = (format: string) => format.startsWith("D") || format.startsWith("d");
 export const checkMMDDYYYY = (format: string) => format.startsWith("M") || format.startsWith("m");
 
