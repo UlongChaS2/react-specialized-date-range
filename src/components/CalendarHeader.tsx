@@ -35,10 +35,10 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
   };
 
   const compareWhenUnitIsMonthOrDay = (
-    disabledDate,
-    calendarDate,
-    direction,
-    unit
+    disabledDate: any,
+    calendarDate: any,
+    direction: any,
+    unit: any
   ) => {
     console.log(disabledDate.slice(0, -3), calendarDate.slice(0, -3));
 
