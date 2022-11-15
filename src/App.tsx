@@ -5,7 +5,6 @@ import "./lang/i18n";
 
 import "./assets/styles/index.css";
 import "./assets/styles/initialize.css";
-import "./assets/styles/font.css";
 import "./assets/styles/datePicker.css";
 import { convertDateFormat } from "./utils/dateFormat";
 
