@@ -32,8 +32,8 @@ describe("CalendarHeader title test", () => {
     });
     const { action } = result.current;
 
-    fireEvent.click(getByRole("title"));
     act(() => {
+      fireEvent.click(getByRole("title"));
       action.changeBiggerUnit(EStandard.STARTDATE);
     });
 
@@ -49,9 +49,9 @@ describe("CalendarHeader title test", () => {
     });
     const { action } = result.current;
 
-    fireEvent.click(getByRole("title"));
-    fireEvent.click(getByRole("title"));
     act(() => {
+      fireEvent.click(getByRole("title"));
+      fireEvent.click(getByRole("title"));
       action.changeBiggerUnit(EStandard.STARTDATE);
       action.changeBiggerUnit(EStandard.STARTDATE);
     });
@@ -68,10 +68,10 @@ describe("CalendarHeader title test", () => {
     });
     const { action } = result.current;
 
-    fireEvent.click(getByRole("title"));
-    fireEvent.click(getByRole("title"));
-    fireEvent.click(getByRole("title"));
     act(() => {
+      fireEvent.click(getByRole("title"));
+      fireEvent.click(getByRole("title"));
+      fireEvent.click(getByRole("title"));
       action.changeBiggerUnit(EStandard.STARTDATE);
       action.changeBiggerUnit(EStandard.STARTDATE);
       action.changeBiggerUnit(EStandard.STARTDATE);

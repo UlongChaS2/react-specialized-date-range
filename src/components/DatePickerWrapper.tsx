@@ -19,16 +19,32 @@ export default function DatePickerWrapper(props: IDatePickerContextValues) {
   const { action: dateActions } = useDateContext();
   const optionActions = useDatePickerOptionActionsContext();
   const options = useDatePickerOptionValuesContext();
-  const { width, height, double, locale, mode, placement, value, disabledDates, format } = options;
+  const {
+    width,
+    height,
+    double,
+    locale,
+    mode,
+    placement,
+    value,
+    disabledDates,
+    format,
+  } = options;
 
   React.useEffect(() => {
-    locale && i18n.language !== locale && i18n.changeLanguage(locale);
     optionActions.setInitOption(props);
   }, []);
 
   React.useEffect(() => {
+    locale && i18n.language !== locale && i18n.changeLanguage(locale);
+  }, [locale]);
+
+  React.useEffect(() => {
     if (disabledDates && disabledDates[1]) {
-      const convertedEndDate = convertToDeafultFormat(disabledDates[1], format).slice(0, -3);
+      const convertedEndDate = convertToDeafultFormat(
+        disabledDates[1],
+        format
+      ).slice(0, -3);
 
       convertedEndDate < convertDateFormat().slice(0, -3) &&
         dateActions.setToDisabledEndDate(double, convertedEndDate);
@@ -36,26 +52,32 @@ export default function DatePickerWrapper(props: IDatePickerContextValues) {
   }, [disabledDates]);
 
   React.useEffect(() => {
-    (value[0] || value[1]) && dateActions.setSelectedDate(double, value, format);
+    (value[0] || value[1]) &&
+      dateActions.setSelectedDate(double, value, format);
   }, [value]);
 
   const { isActive, setIsActive, inputRef } = useOutsideClick();
 
   return (
-    <div style={{ width, height }} className='datePickerWrapper' ref={inputRef}>
-      <div className='wrapper'>
+    <div style={{ width, height }} className="datePickerWrapper" ref={inputRef}>
+      <div className="wrapper">
         <DateInput
           standard={`${double ? EStandard.STARTDATE : EStandard.SINGLE}`}
           setIsActive={setIsActive}
         />
         {double && (
-          <DateInput standard={`${double && EStandard.ENDDATE}`} setIsActive={setIsActive} />
+          <DateInput
+            standard={`${double && EStandard.ENDDATE}`}
+            setIsActive={setIsActive}
+          />
         )}
       </div>
 
       {(mode === EMode.STATIC || (mode === EMode.BASIC && isActive)) && (
         <div className={`wrapper ${mode} ${placement}`}>
-          <Calendar standard={`${double ? EStandard.STARTDATE : EStandard.SINGLE}`} />
+          <Calendar
+            standard={`${double ? EStandard.STARTDATE : EStandard.SINGLE}`}
+          />
           {double && <Calendar standard={`${double && EStandard.ENDDATE}`} />}
         </div>
       )}

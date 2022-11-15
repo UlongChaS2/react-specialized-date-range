@@ -61,14 +61,14 @@ const translateTitleToKo = (year: number, month: number) => `${year} ${month}월
 const translateTitleToEn = (year: number, month: number) => `${months[month - 1]} ${year}`;
 const translateTitleToJa = (year: number, month: number) => `${year}年 ${month}月`;
 
-export const convertTitleToUnit = (unit: string, year: number, month: number) => {
+export const convertTitleToUnit = (unit: string, year: number, month: number, locale:string = i18n.language) => {
   if (unit === EUnit.DECADE) return `${year}-${year < 0 ? year - 90 : year + 90}`;
   if (unit === EUnit.YEAR) return `${year}-${year < 0 ? year - 9 : year + 9}`;
   if (unit === EUnit.MONTH) return `${year}`;
   if (unit === EUnit.DAY) {
-    if (i18n.language === ELanguage.KO) return translateTitleToKo(year, month);
-    if (i18n.language === ELanguage.EN) return translateTitleToEn(year, month);
-    if (i18n.language === ELanguage.JA) return translateTitleToJa(year, month);
+    if (locale === ELanguage.KO) return translateTitleToKo(year, month);
+    if (locale === ELanguage.EN) return translateTitleToEn(year, month);
+    if (locale === ELanguage.JA) return translateTitleToJa(year, month);
   }
 };
 
