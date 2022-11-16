@@ -10,10 +10,11 @@ import { convertDateFormat } from "./utils/dateFormat";
 
 const datePickerProps = {
   width: "580px",
-  // disabledDates: ["1989-12-31", ""],
-  // disabledDates: ["1879-12-31", ""],
-  // disabledDates: ["1900-01-01", convertDateFormat()],
-  disabledDates: ["2021-12-31", "2190-03-03"],
+  double: false,
+  // disabledDates: ["", "2100-12-31"],
+  // disabledDates: ["1893-12-31", ""],
+  // disabledDates: ["1890-12-31", "2100-01-01"],
+  disabledDates: ["2020-12-31", "2024-01-01"],
   mode: "static",
   format: "YYYY-MM-DD",
   placeholder: "YYYY-MM-DD",

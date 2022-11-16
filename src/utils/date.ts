@@ -8,7 +8,12 @@ import {
   findYearInStr,
 } from "./dateFormat";
 import { refer } from "./dateOption";
-import { changeCentury, changeDecade, changeMonth, changeYear } from "./dateTitle";
+import {
+  changeCentury,
+  changeDecade,
+  changeMonth,
+  changeYear,
+} from "./dateTitle";
 
 export const onChangeTitle = (prevDate: IDate, arrow: string): IDate => {
   if (prevDate.unit === EUnit.DAY) return changeMonth(prevDate, arrow);
@@ -45,7 +50,11 @@ export const onChangeDate = (
   format: string,
   type: string
 ): IDateContextValues => {
-  if (!str) return { ...prevDate, [standard]: { ...prevDate[standard], selectedDate: "" } };
+  if (!str)
+    return {
+      ...prevDate,
+      [standard]: { ...prevDate[standard], selectedDate: "" },
+    };
 
   const { selectedDate } = prevDate[refer(standard)];
   let selectedYear = findYearInStr(str, format);
@@ -67,15 +76,22 @@ export const onChangeDate = (
   let newSelectedDate = {
     year: selectedYear,
     month: selectedMonth < 13 ? selectedMonth : 12,
-    selectedDate: convertDateFormat(selectedYear, selectedMonth, selectedDay, format),
+    selectedDate: convertDateFormat(
+      selectedYear,
+      selectedMonth,
+      selectedDay,
+      format
+    ),
   };
 
   const referSelcetedDate = convertToDeafultFormat(selectedDate, format);
   const writenDate = convertToDeafultFormat(str, format);
   if (
     standard !== EStandard.SINGLE &&
-    ((refer(standard) === EStandard.ENDDATE && writenDate > referSelcetedDate) ||
-      (refer(standard) === EStandard.STARTDATE && writenDate < referSelcetedDate))
+    ((refer(standard) === EStandard.ENDDATE &&
+      writenDate > referSelcetedDate) ||
+      (refer(standard) === EStandard.STARTDATE &&
+        writenDate < referSelcetedDate))
   ) {
     return {
       ...prevDate,
@@ -84,7 +100,10 @@ export const onChangeDate = (
     };
   }
 
-  return { ...prevDate, [standard]: { ...prevDate[standard], ...newSelectedDate } };
+  return {
+    ...prevDate,
+    [standard]: { ...prevDate[standard], ...newSelectedDate },
+  };
 };
 
 export const onChangeMonth = (prevDate: IDate, index: number): IDate => {
@@ -92,7 +111,11 @@ export const onChangeMonth = (prevDate: IDate, index: number): IDate => {
 };
 
 export const onChangeYearOrDecade = (prevDate: IDate, year: number): IDate => {
-  return { ...prevDate, unit: prevDate.unit === EUnit.DECADE ? EUnit.YEAR : EUnit.MONTH, year };
+  return {
+    ...prevDate,
+    unit: prevDate.unit === EUnit.DECADE ? EUnit.YEAR : EUnit.MONTH,
+    year,
+  };
 };
 
 export const onSetSelectDate = (
@@ -142,7 +165,11 @@ const getDate = (prev: IDate, value: string, format: string) => {
   return {
     ...prev,
     selectedDate: value,
-    year: findYearInStr(value, format) ? findYearInStr(value, format) : prev.year,
-    month: findMonthInStr(value, format) ? findMonthInStr(value, format) : prev.month,
+    year: findYearInStr(value, format)
+      ? findYearInStr(value, format)
+      : prev.year,
+    month: findMonthInStr(value, format)
+      ? findMonthInStr(value, format)
+      : prev.month,
   };
 };
