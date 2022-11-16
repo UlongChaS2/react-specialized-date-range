@@ -6,12 +6,10 @@ import i18n from "../lang/i18n";
 import {
   convertToDeafultFormat,
   convertDateFormat,
-  findMonthInStr,
-  findDayInStr,
   checkFirstDayInYear,
   checkLastDayInYear,
 } from "../utils/dateFormat";
-import { EDirection, ELanguage, EUnit, ICalendarProps } from "../@types/date";
+import { EDirection, EUnit, ICalendarProps } from "../@types/date";
 import { IDatePickerContextValues } from "../@types/dateContext";
 import { getDatesDiff } from "../utils/dateOption";
 
@@ -82,10 +80,9 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
 
     if (dateDiffOfDecade === 1 && unit === EUnit.YEAR) return false;
     if (yearDiffOfDecade === 10 && unit === EUnit.DECADE) {
-      if (direction === EDirection.LEFT && checkLastDayInYear(disabledDate))
-        return false;
-      if (direction === EDirection.RIGHT && checkFirstDayInYear(disabledDate))
-        return false;
+      return direction === EDirection.LEFT
+        ? !checkLastDayInYear(disabledDate)
+        : !checkFirstDayInYear(disabledDate);
     }
 
     return direction === EDirection.LEFT

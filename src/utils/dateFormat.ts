@@ -193,6 +193,10 @@ export const formattingNumToDate = (value: string, format: string): string => {
   return onlyNum.replace(RegDateFmt, DataFormat);
 };
 
+export const floorToTens = (year: number): number => Math.floor(year / 10) * 10;
+export const floorToHundredths = (year: number): number =>
+  Math.floor(year / 10) * 10;
+
 export const checkFirstDayInYear = (date: string): boolean => {
   return findMonthInStr(date) === 1 && findDayInStr(date) === 1;
 };

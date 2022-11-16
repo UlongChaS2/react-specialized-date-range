@@ -5,7 +5,14 @@ import useDecade from "../hooks/useDecade";
 import { IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { convertToDeafultFormat, findDecadeInYear, findYearInStr } from "../utils/dateFormat";
+import {
+  checkFirstDayInYear,
+  checkLastDayInYear,
+  convertToDeafultFormat,
+  findDecadeInYear,
+  findYearInStr,
+  floorToTens,
+} from "../utils/dateFormat";
 
 export default function CalendarDecade({ standard }: ICalendarProps) {
   const { value: date, action } = useDateContext();
@@ -16,31 +23,59 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
   const { decades } = useDecade({ year });
   const selectedYear = findYearInStr(selectedDate, format);
   const disabledYear = disabledDates?.map((item) =>
-    findDecadeInYear(convertToDeafultFormat(item, format))
+    findYearInStr(convertToDeafultFormat(item, format))
   );
 
   const handleClickDecade = (decade: number) => {
-    (!disabledYear ||
-      (disabledYear &&
-        (disabledYear[0] <= findDecadeInYear(decade) || !disabledYear[0]) &&
-        (findDecadeInYear(decade) <= disabledYear[1] || !disabledYear[1]))) &&
-      action.changeDecade(standard, decade);
+    if (!disabledYear || !disabledDates)
+      return action.changeDecade(standard, decade);
+
+    if (
+      (floorToTens(disabledYear[0]) < decade &&
+        floorToTens(disabledYear[1]) > decade) ||
+      (!(
+        floorToTens(disabledYear[0]) === decade &&
+        checkLastDayInYear(disabledDates[0])
+      ) &&
+        !(
+          floorToTens(disabledYear[1]) === decade &&
+          checkFirstDayInYear(disabledDates[1])
+        ))
+    )
+      return action.changeDecade(standard, decade);
+  };
+
+  const disabledCondition = (decade: number): boolean => {
+    if (disabledDates && disabledYear) {
+      if (
+        floorToTens(disabledYear[0]) > decade ||
+        (floorToTens(disabledYear[0]) === decade &&
+          checkLastDayInYear(disabledDates[0]))
+      )
+        return true;
+
+      if (
+        floorToTens(disabledYear[1]) < decade ||
+        (floorToTens(disabledYear[1]) === decade &&
+          checkFirstDayInYear(disabledDates[1]))
+      )
+        return true;
+    }
+
+    return false;
   };
 
   return (
-    <div className='calendarDateLargeUnitWrapper'>
+    <div className="calendarDateLargeUnitWrapper">
       {decades &&
         decades.map((decade, index) => (
           <div
             key={decade}
             className={`calendarDateLargeUnitContent ${
-              findDecadeInYear(selectedYear) === findDecadeInYear(decade) && "highlight"
+              findDecadeInYear(selectedYear) === findDecadeInYear(decade) &&
+              "highlight"
             } ${
-              (index === 0 ||
-                index === 11 ||
-                (disabledYear &&
-                  (findDecadeInYear(decade) < disabledYear[0] ||
-                    (findDecadeInYear(decade) > disabledYear[1] && disabledYear[1])))) &&
+              (index === 0 || index === 11 || disabledCondition(decade)) &&
               "disabled"
             }`}
             onClick={() => handleClickDecade(decade)}
