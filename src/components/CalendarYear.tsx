@@ -20,15 +20,16 @@ export default function CalendarYear({ standard }: ICalendarProps) {
   );
 
   const handleClickYear = (year: number) => {
-    (!disabledYear ||
-      (disabledYear &&
-        (disabledYear[0] <= year || !disabledYear[0]) &&
-        (year <= disabledYear[1] || !disabledYear[1]))) &&
+    if (!disabledDates || !disabledYear)
+      return action.changeYear(standard, year);
+
+    (disabledYear[0] <= year || !disabledYear[0]) &&
+      (year <= disabledYear[1] || !disabledYear[1]) &&
       action.changeYear(standard, year);
   };
 
   return (
-    <div className='calendarDateLargeUnitWrapper'>
+    <div className="calendarDateLargeUnitWrapper">
       {years &&
         years.map((year, index) => (
           <div
@@ -39,7 +40,8 @@ export default function CalendarYear({ standard }: ICalendarProps) {
               (index === 0 ||
                 index === 11 ||
                 (disabledYear &&
-                  (year < disabledYear[0] || (year > disabledYear[1] && disabledYear[1])))) &&
+                  (year < disabledYear[0] ||
+                    (year > disabledYear[1] && disabledYear[1])))) &&
               "disabled"
             }`}
             onClick={() => handleClickYear(year)}

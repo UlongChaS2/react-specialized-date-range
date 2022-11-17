@@ -2,16 +2,15 @@ import * as React from "react";
 import { useDateContext } from "../hooks/useDateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
-import i18n from "../lang/i18n";
 import {
   convertToDeafultFormat,
   convertDateFormat,
   checkFirstDayInYear,
   checkLastDayInYear,
 } from "../utils/dateFormat";
+import { getDatesDiff } from "../utils/dateOption";
 import { EDirection, EUnit, ICalendarProps } from "../@types/date";
 import { IDatePickerContextValues } from "../@types/dateContext";
-import { getDatesDiff } from "../utils/dateOption";
 
 export default function CalendarHeader({ standard }: ICalendarProps) {
   const { value: date, action } = useDateContext();
