@@ -5,7 +5,13 @@ import { useDateContext } from "../hooks/useDateContext";
 import { IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { convertToDeafultFormat, findYearInStr } from "../utils/dateFormat";
+import {
+  checkFirstDayInYear,
+  checkLastDayInYear,
+  convertToDeafultFormat,
+  findYearInStr,
+  floorToTens,
+} from "../utils/dateFormat";
 
 export default function CalendarYear({ standard }: ICalendarProps) {
   const { value: date, action } = useDateContext();
@@ -23,9 +29,28 @@ export default function CalendarYear({ standard }: ICalendarProps) {
     if (!disabledDates || !disabledYear)
       return action.changeYear(standard, year);
 
-    (disabledYear[0] <= year || !disabledYear[0]) &&
-      (year <= disabledYear[1] || !disabledYear[1]) &&
+    (disabledYear[0] < year || disabledYear[1] > year) &&
+      !(disabledYear[0] === year && checkLastDayInYear(disabledDates[0])) &&
+      !(disabledYear[1] === year && checkFirstDayInYear(disabledDates[1])) &&
       action.changeYear(standard, year);
+  };
+
+  const disabledCondition = (year: number): boolean => {
+    if (disabledDates && disabledYear) {
+      if (
+        disabledYear[0] > year ||
+        (disabledYear[0] === year && checkLastDayInYear(disabledDates[0]))
+      )
+        return true;
+
+      if (
+        disabledYear[1] < year ||
+        (disabledYear[1] === year && checkFirstDayInYear(disabledDates[1]))
+      )
+        return true;
+    }
+
+    return false;
   };
 
   return (
@@ -37,11 +62,7 @@ export default function CalendarYear({ standard }: ICalendarProps) {
             className={`calendarDateLargeUnitContent ${
               selectedDate && selectedYear === year && "highlight"
             } ${
-              (index === 0 ||
-                index === 11 ||
-                (disabledYear &&
-                  (year < disabledYear[0] ||
-                    (year > disabledYear[1] && disabledYear[1])))) &&
+              (index === 0 || index === 11 || disabledCondition(year)) &&
               "disabled"
             }`}
             onClick={() => handleClickYear(year)}

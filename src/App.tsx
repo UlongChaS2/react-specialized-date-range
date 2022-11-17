@@ -13,7 +13,7 @@ const datePickerProps = {
   // disabledDates: ["", "2100-12-31"],
   // disabledDates: ["1893-12-31", ""],
   // disabledDates: ["1890-12-31", "2100-01-01"],
-  disabledDates: ["2010-12-31", "2030-01-01"],
+  disabledDates: ["2018-12-31", "2030-01-01"],
   mode: "static",
   format: "YYYY-MM-DD",
   placeholder: "YYYY-MM-DD",

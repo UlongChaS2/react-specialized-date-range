@@ -197,6 +197,14 @@ export const floorToTens = (year: number): number => Math.floor(year / 10) * 10;
 export const floorToHundredths = (year: number): number =>
   Math.floor(year / 10) * 10;
 
+export const checkFirstDateInDecade = (date: string): boolean => {
+  return findYearInStr(date) % 10 === 0 && checkFirstDayInYear(date);
+};
+
+export const checkLastDateInDecade = (date: string): boolean => {
+  return findYearInStr(date) % 10 === 9 && checkLastDayInYear(date);
+};
+
 export const checkFirstDayInYear = (date: string): boolean => {
   return findMonthInStr(date) === 1 && findDayInStr(date) === 1;
 };

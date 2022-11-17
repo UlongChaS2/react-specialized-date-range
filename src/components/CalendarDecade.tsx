@@ -6,8 +6,8 @@ import { IDatePickerContextValues } from "../@types/dateContext";
 import { ICalendarProps } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import {
-  checkFirstDayInYear,
-  checkLastDayInYear,
+  checkFirstDateInDecade,
+  checkLastDateInDecade,
   convertToDeafultFormat,
   findDecadeInYear,
   findYearInStr,
@@ -35,11 +35,11 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
         floorToTens(disabledYear[1]) > decade) ||
       (!(
         floorToTens(disabledYear[0]) === decade &&
-        checkLastDayInYear(disabledDates[0])
+        checkLastDateInDecade(disabledDates[0])
       ) &&
         !(
           floorToTens(disabledYear[1]) === decade &&
-          checkFirstDayInYear(disabledDates[1])
+          checkFirstDateInDecade(disabledDates[1])
         ))
     )
       return action.changeDecade(standard, decade);
@@ -50,14 +50,14 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
       if (
         floorToTens(disabledYear[0]) > decade ||
         (floorToTens(disabledYear[0]) === decade &&
-          checkLastDayInYear(disabledDates[0]))
+          checkLastDateInDecade(disabledDates[0]))
       )
         return true;
 
       if (
         floorToTens(disabledYear[1]) < decade ||
         (floorToTens(disabledYear[1]) === decade &&
-          checkFirstDayInYear(disabledDates[1]))
+          checkFirstDateInDecade(disabledDates[1]))
       )
         return true;
     }
