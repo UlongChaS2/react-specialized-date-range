@@ -10,12 +10,22 @@ import { IDatePickerContextValues } from "../@types/dateContext";
 import { EType, ICalendarDayProps, IDay } from "../@types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import { convertToDeafultFormat } from "../utils/dateFormat";
+import { refer } from "../utils/dateOption";
 
-export default function CalendarDay({ standard, year, month }: ICalendarDayProps) {
+export default function CalendarDay({
+  standard,
+  year,
+  month,
+}: ICalendarDayProps) {
   const { t } = useTranslation();
   const { value: date, action } = useDateContext();
   const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates, locale = i18n.language, startDayOfWeek, format } = option;
+  const {
+    disabledDates,
+    locale = i18n.language,
+    startDayOfWeek,
+    format,
+  } = option;
   const formattingDisabledDates = disabledDates?.map((item) =>
     convertToDeafultFormat(item, format)
   );
@@ -41,41 +51,53 @@ export default function CalendarDay({ standard, year, month }: ICalendarDayProps
   };
 
   const rangeStyle = (day: string) => {
-    const startSelected = convertToDeafultFormat(date.startDate.selectedDate, format);
-    const endSelected = convertToDeafultFormat(date.endDate.selectedDate, format);
+    const startSelected = convertToDeafultFormat(
+      date.startDate.selectedDate,
+      format
+    );
+    const endSelected = convertToDeafultFormat(
+      date.endDate.selectedDate,
+      format
+    );
     const dayEl = convertToDeafultFormat(day, format);
 
-    return date.startDate.selectedDate && startSelected < dayEl && dayEl < endSelected;
+    return (
+      date.startDate.selectedDate &&
+      startSelected < dayEl &&
+      dayEl < endSelected
+    );
   };
 
   const disabledStyle = (day: IDay) => {
     return (
       day.isCurrentDay !== "thisMonth" ||
       (formattingDisabledDates &&
-        formattingDisabledDates[0] >= convertToDeafultFormat(day.date, format)) ||
+        formattingDisabledDates[0] >=
+          convertToDeafultFormat(day.date, format)) ||
       (formattingDisabledDates &&
-        convertToDeafultFormat(day.date, format) >= formattingDisabledDates[1] &&
+        convertToDeafultFormat(day.date, format) >=
+          formattingDisabledDates[1] &&
         formattingDisabledDates[1])
     );
   };
 
   return (
     <div>
-      <div className='calendarDateDayUnitWrapper'>
+      <div className="calendarDateDayUnitWrapper">
         {reorderWeekDays.map((day, index) => (
-          <div className='calendarDateDayUnitHeader' key={index}>
+          <div className="calendarDateDayUnitHeader" key={index}>
             {t(`weekDays.${day}`)}
           </div>
         ))}
       </div>
 
-      <div className='calendarDateDayUnitContentWrapper'>
+      <div className="calendarDateDayUnitContentWrapper">
         {days &&
           days.map((day, index) => (
             <div
               className={`calendarDateDayUnitContent ${
-                (date.startDate.selectedDate === day.date ||
-                  date.endDate.selectedDate === day.date) &&
+                (date[standard].selectedDate === day.date ||
+                  date[refer(standard)].selectedDate === day.date) &&
                 "highlight"
               } ${rangeStyle(day.date) && "range"} ${
                 day.weekday === t("weekDays.Saturday") && "saturday"

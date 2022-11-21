@@ -1,6 +1,12 @@
 import * as React from "react";
-import { IDatePickerContextActions, IDatePickerContextValues } from "../@types/dateContext";
-import { initialDateOptionAction, initialDateOptionState } from "../utils/constants/initialContext";
+import {
+  IDatePickerContextActions,
+  IDatePickerContextValues,
+} from "../@types/dateContext";
+import {
+  initialDateOptionAction,
+  initialDateOptionState,
+} from "../utils/constants/initialContext";
 
 export const DatePickerOptionValueContext =
   React.createContext<IDatePickerContextValues>(initialDateOptionState);
@@ -8,8 +14,14 @@ export const DatePickerOptionValueContext =
 export const DatePickerOptionActionsContext =
   React.createContext<IDatePickerContextActions>(initialDateOptionAction);
 
-const DatePickerOptionProvider = ({ children }: { children: React.ReactNode }) => {
-  const [option, setOption] = React.useState<IDatePickerContextValues>(initialDateOptionState);
+const DatePickerOptionProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [option, setOption] = React.useState<IDatePickerContextValues>(
+    initialDateOptionState
+  );
 
   const actions = React.useMemo(
     () => ({

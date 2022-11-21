@@ -102,9 +102,10 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
 
   return (
     <div className="calendarHeaderWrapper">
-      {disabledDates &&
-      (arrowCondition(disabledDates[0], EDirection.LEFT) ||
-        !disabledDates[0]) ? (
+      {!disabledDates ||
+      (disabledDates &&
+        (arrowCondition(disabledDates[0], EDirection.LEFT) ||
+          !disabledDates[0])) ? (
         <button
           className="calendarHeaderBtn"
           onClick={() => action.changeTitle(standard, EDirection.LEFT)}
@@ -123,9 +124,10 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
         {date[standard].title()}
       </div>
 
-      {disabledDates &&
-      (arrowCondition(disabledDates[1], EDirection.RIGHT) ||
-        !disabledDates[1]) ? (
+      {!disabledDates ||
+      (disabledDates &&
+        (arrowCondition(disabledDates[1], EDirection.RIGHT) ||
+          !disabledDates[1])) ? (
         <button
           className="calendarHeaderBtn"
           onClick={() => action.changeTitle(standard, EDirection.RIGHT)}
