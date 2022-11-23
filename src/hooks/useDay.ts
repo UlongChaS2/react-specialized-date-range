@@ -11,7 +11,13 @@ interface IUseDayPrams {
   format: string;
 }
 
-export default function useDay({ year, month, locale, reorderWeekDays, format }: IUseDayPrams) {
+export default function useDay({
+  year,
+  month,
+  locale,
+  reorderWeekDays,
+  format,
+}: IUseDayPrams) {
   const [days, setDays] = React.useState<Array<IDay>>([]);
 
   React.useLayoutEffect(() => {
@@ -37,8 +43,8 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
         });
       } else if (i >= lastDayOfMonth) {
         const dateStr = convertDateFormat(
-          year,
-          month + 1,
+          month + 1 !== 13 ? year : year + 1,
+          month + 1 !== 13 ? month + 1 : 1,
           i - (paddingDays + lastDayOfMonth),
           format
         );
@@ -47,13 +53,18 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
           value: i - (paddingDays + lastDayOfMonth),
           isCurrentDay: "nextMonth",
           date: dateStr,
-          weekday: getWeekday(year, month, i - (paddingDays + lastDayOfMonth), locale),
+          weekday: getWeekday(
+            year,
+            month,
+            i - (paddingDays + lastDayOfMonth),
+            locale
+          ),
         });
       } else {
         const lastDayOfLastMonth = new Date(year, month - 1, 0).getDate();
         const dateStr = convertDateFormat(
-          year,
-          month - 1,
+          month - 1 ? year : year - 1,
+          month - 1 ? month - 1 : 12,
           lastDayOfLastMonth - paddingDays + i,
           format
         );
@@ -62,7 +73,12 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
           value: lastDayOfLastMonth - paddingDays + i,
           isCurrentDay: "lastMonth",
           date: dateStr,
-          weekday: getWeekday(year, month - 2, lastDayOfLastMonth - paddingDays + i, locale),
+          weekday: getWeekday(
+            year,
+            month - 2,
+            lastDayOfLastMonth - paddingDays + i,
+            locale
+          ),
         });
       }
     }

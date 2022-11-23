@@ -31,16 +31,16 @@ export default function CalendarDecade({ standard }: ICalendarProps) {
       return action.changeDecade(standard, decade);
 
     if (
-      (floorToTens(disabledYear[0]) < decade &&
-        floorToTens(disabledYear[1]) > decade) ||
-      (!(
+      floorToTens(disabledYear[0]) < decade &&
+      floorToTens(disabledYear[1]) >= decade &&
+      !(
         floorToTens(disabledYear[0]) === decade &&
         checkLastDateInDecade(disabledDates[0])
       ) &&
-        !(
-          floorToTens(disabledYear[1]) === decade &&
-          checkFirstDateInDecade(disabledDates[1])
-        ))
+      !(
+        floorToTens(disabledYear[1]) === decade &&
+        checkFirstDateInDecade(disabledDates[1])
+      )
     )
       return action.changeDecade(standard, decade);
   };

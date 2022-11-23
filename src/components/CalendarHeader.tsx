@@ -78,7 +78,7 @@ export default function CalendarHeader({ standard }: ICalendarProps) {
     const { unit } = date[standard];
 
     if (dateDiffOfDecade === 1 && unit === EUnit.YEAR) return false;
-    if (yearDiffOfDecade === 10 && unit === EUnit.DECADE) {
+    if (yearDiffOfDecade === 1 && unit === EUnit.DECADE) {
       return direction === EDirection.LEFT
         ? !checkLastDayInYear(disabledDate)
         : !checkFirstDayInYear(disabledDate);
