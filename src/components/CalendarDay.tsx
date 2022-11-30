@@ -1,25 +1,22 @@
 import * as React from "react";
 import useDay from "../hooks/useDay";
 import { useDateContext } from "../hooks/useDateContext";
+import { useDatePickerOptionContext } from "../hooks/useDateOptionContext";
 import { useTranslation } from "react-i18next";
 
-import i18n from "../lang/i18n";
-
 import { weekDays } from "../utils/constants/date";
-import { IDatePickerContextValues } from "../@types/dateContext";
-import { EType, ICalendarDayProps, IDay } from "../@types/date";
-import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
-import { convertToDeafultFormat } from "../utils/dateFormat";
 import { refer } from "../utils/dateOption";
+import { convertToDefaultFormat } from "../utils/dateFormat";
+import { EType, ICalendarDayProps, IDay } from "../types/date";
 
 export default function CalendarDay({
   standard,
   year,
   month,
 }: ICalendarDayProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { value: date, action } = useDateContext();
-  const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
+  const { value: option } = useDatePickerOptionContext();
   const {
     disabledDates,
     locale = i18n.language,
@@ -27,7 +24,7 @@ export default function CalendarDay({
     format,
   } = option;
   const formattingDisabledDates = disabledDates?.map((item) =>
-    convertToDeafultFormat(item, format)
+    convertToDefaultFormat(item, format)
   );
 
   const reorderWeekDays =
@@ -43,7 +40,7 @@ export default function CalendarDay({
     if (!disabledDates || !formattingDisabledDates)
       return action.changeHighlightDate(standard, day, format, EType.CALENDAR);
 
-    const selecteDay = convertToDeafultFormat(day, format);
+    const selecteDay = convertToDefaultFormat(day, format);
 
     (!disabledDates[0] || formattingDisabledDates[0] < selecteDay) &&
       (!disabledDates[1] || selecteDay < formattingDisabledDates[1]) &&
@@ -51,18 +48,19 @@ export default function CalendarDay({
   };
 
   const rangeStyle = (day: string) => {
-    const startSelected = convertToDeafultFormat(
+    const startSelected = convertToDefaultFormat(
       date.startDate.selectedDate,
       format
     );
-    const endSelected = convertToDeafultFormat(
+    const endSelected = convertToDefaultFormat(
       date.endDate.selectedDate,
       format
     );
-    const dayEl = convertToDeafultFormat(day, format);
+    const dayEl = convertToDefaultFormat(day, format);
 
     return (
-      date.startDate.selectedDate &&
+      date.startDate.selectedDate.length >= 10 &&
+      date.endDate.selectedDate.length >= 10 &&
       startSelected < dayEl &&
       dayEl < endSelected
     );
@@ -73,9 +71,9 @@ export default function CalendarDay({
       day.isCurrentDay !== "thisMonth" ||
       (formattingDisabledDates &&
         formattingDisabledDates[0] >=
-          convertToDeafultFormat(day.date, format)) ||
+          convertToDefaultFormat(day.date, format)) ||
       (formattingDisabledDates &&
-        convertToDeafultFormat(day.date, format) >=
+        convertToDefaultFormat(day.date, format) >=
           formattingDisabledDates[1] &&
         formattingDisabledDates[1])
     );

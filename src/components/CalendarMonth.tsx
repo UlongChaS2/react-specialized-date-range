@@ -10,8 +10,8 @@ import {
 } from "../utils/dateFormat";
 import { months } from "../utils/constants/date";
 
-import { ICalendarProps } from "../@types/date";
-import { IDatePickerContextValues } from "../@types/dateContext";
+import { ICalendarProps } from "../types/date";
+import { IDatePickerContextValues } from "../types/dateContext";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 
 export default function CalendarMonth({ standard }: ICalendarProps) {
@@ -30,15 +30,17 @@ export default function CalendarMonth({ standard }: ICalendarProps) {
   const handleClickMonth = (index: number) => {
     (!disabledMonth ||
       (disabledMonth &&
-        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` >= disabledMonth[0] ||
+        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` >=
+          disabledMonth[0] ||
           !disabledMonth[0]) &&
-        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` <= disabledMonth[1] ||
+        (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` <=
+          disabledMonth[1] ||
           !disabledMonth[1]))) &&
       action.changeMonth(standard, index);
   };
 
   return (
-    <div className='calendarDateLargeUnitWrapper'>
+    <div className="calendarDateLargeUnitWrapper">
       {[...Array(12)].map((x, index) => (
         <div
           key={index}
@@ -47,8 +49,10 @@ export default function CalendarMonth({ standard }: ICalendarProps) {
           } ${
             disabledDates &&
             disabledMonth &&
-            (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` < disabledMonth[0] ||
-              (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` > disabledMonth[1] &&
+            (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` <
+              disabledMonth[0] ||
+              (`${date[standard].year}-${convertToDoubleDigits(index + 1)}` >
+                disabledMonth[1] &&
                 disabledMonth[1])) &&
             "disabled"
           }`}

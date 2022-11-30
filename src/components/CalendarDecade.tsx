@@ -2,8 +2,8 @@ import * as React from "react";
 import { useDateContext } from "../hooks/useDateContext";
 import useDecade from "../hooks/useDecade";
 
-import { IDatePickerContextValues } from "../@types/dateContext";
-import { ICalendarProps } from "../@types/date";
+import { IDatePickerContextValues } from "../types/dateContext";
+import { ICalendarProps } from "../types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import {
   checkFirstDateInDecade,

@@ -1,6 +1,12 @@
 {
   "startDate": "start date",
   "endDate": "end date",
+  "error-message": {
+    "invalidDate": "Please enter a valid date for {{label}}",
+    "disabledDate": "Enter a date in the active range at {{label}}",
+    "smallThan": "The start date must be before the end date.",
+    "biggerThan": "The end date must be later than the start date."
+  },
   "month": {
     "January": "Jan",
     "February": "Feb",

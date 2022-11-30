@@ -2,8 +2,8 @@ import * as React from "react";
 import useYear from "../hooks/useYear";
 import { useDateContext } from "../hooks/useDateContext";
 
-import { IDatePickerContextValues } from "../@types/dateContext";
-import { ICalendarProps } from "../@types/date";
+import { IDatePickerContextValues } from "../types/dateContext";
+import { ICalendarProps } from "../types/date";
 import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
 import {
   checkFirstDayInYear,
