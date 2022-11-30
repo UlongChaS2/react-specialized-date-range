@@ -1,58 +1,55 @@
-import * as React from "react";
-import useYear from "../hooks/useYear";
-import { useDateContext } from "../hooks/useDateContext";
+import * as React from 'react'
+import useYear from '../hooks/useYear'
+import { useDateContext } from '../hooks/useDateContext'
 
-import { IDatePickerContextValues } from "../types/dateContext";
-import { ICalendarProps } from "../types/date";
-import { useDatePickerOptionValuesContext } from "../hooks/useDateOptionContext";
+import { ICalendarProps } from '../types/date'
 import {
   checkFirstDayInYear,
   checkLastDayInYear,
-  convertToDeafultFormat,
+  convertToDefaultFormat,
   findYearInStr,
-  floorToTens,
-} from "../utils/dateFormat";
+} from '../utils/dateFormat'
+import { useDatePickerOptionContext } from '../hooks/useDateOptionContext'
 
 export default function CalendarYear({ standard }: ICalendarProps) {
-  const { value: date, action } = useDateContext();
-  const option: IDatePickerContextValues = useDatePickerOptionValuesContext();
-  const { disabledDates, format } = option;
+  const { value: date, action } = useDateContext()
+  const { value: options } = useDatePickerOptionContext()
+  const { disabledDates, format } = options
 
-  const { year, selectedDate } = date[standard];
-  const { years } = useYear({ year });
-  const selectedYear = findYearInStr(selectedDate, format);
+  const { year, selectedDate } = date[standard]
+  const { years } = useYear({ year })
+  const selectedYear = findYearInStr(selectedDate, format)
   const disabledYear = disabledDates?.map(
-    (item) => +convertToDeafultFormat(item, format).slice(0, 4)
-  );
+    (item) => +convertToDefaultFormat(item, format).slice(0, 4),
+  )
 
   const handleClickYear = (year: number) => {
-    if (!disabledDates || !disabledYear)
-      return action.changeYear(standard, year);
+    if (!disabledDates || !disabledYear) return action.changeYear(standard, year)
 
     disabledYear[0] < year &&
       disabledYear[1] >= year &&
       !(disabledYear[0] === year && checkLastDayInYear(disabledDates[0])) &&
       !(disabledYear[1] === year && checkFirstDayInYear(disabledDates[1])) &&
-      action.changeYear(standard, year);
-  };
+      action.changeYear(standard, year)
+  }
 
-  const disabledCondition = (year: number): boolean => {
+  const disabledStyleCondition = (year: number): boolean => {
     if (disabledDates && disabledYear) {
       if (
         disabledYear[0] > year ||
         (disabledYear[0] === year && checkLastDayInYear(disabledDates[0]))
       )
-        return true;
+        return true
 
       if (
         disabledYear[1] < year ||
         (disabledYear[1] === year && checkFirstDayInYear(disabledDates[1]))
       )
-        return true;
+        return true
     }
 
-    return false;
-  };
+    return false
+  }
 
   return (
     <div className="calendarDateLargeUnitWrapper">
@@ -61,16 +58,13 @@ export default function CalendarYear({ standard }: ICalendarProps) {
           <div
             key={year}
             className={`calendarDateLargeUnitContent ${
-              selectedDate && selectedYear === year && "highlight"
-            } ${
-              (index === 0 || index === 11 || disabledCondition(year)) &&
-              "disabled"
-            }`}
+              selectedDate && selectedYear === year && 'highlight'
+            } ${(index === 0 || index === 11 || disabledStyleCondition(year)) && 'disabled'}`}
             onClick={() => handleClickYear(year)}
           >
             {year}
           </div>
         ))}
     </div>
-  );
+  )
 }

@@ -13,6 +13,7 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
+    jest: true,
   },
   rules: {
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],

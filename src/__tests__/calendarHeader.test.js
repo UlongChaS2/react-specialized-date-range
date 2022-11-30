@@ -1,27 +1,25 @@
-import "@testing-library/jest-dom";
-import React from "react";
-import { act, fireEvent, render, renderHook } from "@testing-library/react";
-import { useDateContext } from "../hooks/useDateContext";
+import '@testing-library/jest-dom'
+import React from 'react'
+import { act, fireEvent, render, renderHook } from '@testing-library/react'
+import { useDateContext } from '../hooks/useDateContext'
 
-import CalendarHeader from "../components/CalendarHeader";
-import DateProvider from "../context/DateProvider";
+import CalendarHeader from '../components/CalendarHeader'
+import DateProvider from '../context/DateProvider'
 
-import { EStandard, EUnit } from "../@types/date";
-import { convertTitleToUnit } from "../utils/dateFormat";
-import { months, thisDay, thisMonth, thisYear } from "../utils/constants/date";
+import { EStandard, EDirection } from '../@types/date'
 
-describe("CalendarHeader test", () => {
-  it("What to display for the title when you click title and ", () => {
-    const { getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />);
+describe('CalendarHeader test', () => {
+  it('What to display for the title when you click title and ', () => {
+    const { getByRole } = render(<CalendarHeader standard={EStandard.STARTDATE} />)
     const { result } = renderHook(() => useDateContext(), {
       wrapper: ({ children }) => <DateProvider>{children}</DateProvider>,
-    });
-    const { action } = result.current;
+    })
+    const { action } = result.current
 
-    fireEvent.click(getByRole("title"));
+    fireEvent.click(getByRole('title'))
     act(() => {
-      action.changeBiggerUnit(EStandard.STARTDATE);
-      action.changeTitle(EStandard.STARTDATE, EDirection.LEFT);
-    });
-  });
-});
+      action.changeBiggerUnit(EStandard.STARTDATE)
+      action.changeTitle(EStandard.STARTDATE, EDirection.LEFT)
+    })
+  })
+})

@@ -16,10 +16,6 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
 
   const [text, setText] = React.useState('')
 
-  React.useEffect(() => {
-    date[standard] && setText(date[standard].selectedDate)
-  }, [date[standard]])
-
   const translateLabel = () => {
     return standard === EStandard.STARTDATE
       ? t(EStandard.STARTDATE)
@@ -27,6 +23,10 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
       ? t(EStandard.ENDDATE)
       : 'input'
   }
+
+  React.useEffect(() => {
+    date[standard] && setText(date[standard].selectedDate)
+  }, [date[standard]])
 
   const handleChangeDate = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +78,10 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
             }
           }
         } catch (e) {
-          e instanceof Error && onError(e.message as string, { standard, value: newDate })
+          console.error(e)
+          e instanceof Error &&
+            onError &&
+            onError(e.message as string, { standard, value: newDate })
         }
       }
     },

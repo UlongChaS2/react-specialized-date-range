@@ -16,8 +16,10 @@ export default function DatePickerWrapper(props: IDatePickerContextValues) {
   const { width, height, double, mode, placement, disabledDates, format } = options
 
   React.useEffect(() => {
-    if (double) props.onChange([date.startDate.selectedDate, date.endDate.selectedDate])
-    else props.onChange([date.single.selectedDate])
+    if (props.onChange) {
+      if (double) props.onChange([date.startDate.selectedDate, date.endDate.selectedDate])
+      else props.onChange([date.single.selectedDate])
+    }
   }, [date.startDate.selectedDate, date.endDate.selectedDate])
 
   React.useEffect(() => {

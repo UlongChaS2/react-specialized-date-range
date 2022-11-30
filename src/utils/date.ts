@@ -1,13 +1,6 @@
-import { EStandard, EType, EUnit, IDate } from '../types/date'
+import { EType, EUnit, IDate } from '../types/date'
 import { IDateContextValues } from '../types/dateContext'
-import {
-  convertDateFormat,
-  convertToDefaultFormat,
-  findDayInStr,
-  findMonthInStr,
-  findYearInStr,
-} from './dateFormat'
-import { refer } from './dateOption'
+import { convertDateFormat, findDayInStr, findMonthInStr, findYearInStr } from './dateFormat'
 import { changeCentury, changeDecade, changeMonth, changeYear } from './dateTitle'
 
 export const onChangeTitle = (prevDate: IDate, arrow: string): IDate => {
@@ -51,7 +44,12 @@ export const onChangeDate = (
       [standard]: { ...prevDate[standard], selectedDate: '' },
     }
 
-  const { selectedDate } = prevDate[refer(standard)]
+  if (str.length <= 9)
+    return {
+      ...prevDate,
+      [standard]: { ...prevDate[standard], selectedDate: str },
+    }
+
   let selectedYear = findYearInStr(str, format)
   let selectedMonth = findMonthInStr(str, format)
   const selectedDay = findDayInStr(str, format)
@@ -72,20 +70,6 @@ export const onChangeDate = (
     year: selectedYear,
     month: selectedMonth < 13 ? selectedMonth : 12,
     selectedDate: convertDateFormat(selectedYear, selectedMonth, selectedDay, format),
-  }
-
-  const referSelcetedDate = convertToDefaultFormat(selectedDate, format)
-  const writenDate = convertToDefaultFormat(str, format)
-  if (
-    standard !== EStandard.SINGLE &&
-    ((refer(standard) === EStandard.ENDDATE && writenDate > referSelcetedDate) ||
-      (refer(standard) === EStandard.STARTDATE && writenDate < referSelcetedDate))
-  ) {
-    return {
-      ...prevDate,
-      [standard]: { ...prevDate[standard], ...newSelectedDate },
-      [refer(standard)]: { ...prevDate[refer(standard)], selectedDate: '' },
-    }
   }
 
   return {

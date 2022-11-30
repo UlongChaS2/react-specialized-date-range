@@ -31,6 +31,7 @@ export interface ICalendarDayProps extends ICalendarProps {
   year: number
   month: number
   selectedDate: string
+  onError: (error: any, value: any) => void
 }
 
 export enum EUnit {

@@ -42,7 +42,7 @@ export const initialDateOptionState = {
   height: '100%',
   double: true,
   disabledDates: null,
-  placeholder: '',
+  placeholder: 'YYYY-MM-DD',
   mode: 'basic',
   placement: 'bottom',
   format: 'YYYY-MM-DD',
