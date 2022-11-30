@@ -67,8 +67,13 @@ export default function DatePickerWrapper(props: IDatePickerContextValues) {
 
       {(mode === EMode.STATIC || (mode === EMode.BASIC && isActive)) && (
         <div className={`wrapper ${mode} ${placement}`}>
-          <Calendar standard={`${double ? EStandard.STARTDATE : EStandard.SINGLE}`} />
-          {double && <Calendar standard={`${double && EStandard.ENDDATE}`} />}
+          <Calendar
+            standard={`${double ? EStandard.STARTDATE : EStandard.SINGLE}`}
+            onError={props.onError}
+          />
+          {double && (
+            <Calendar standard={`${double && EStandard.ENDDATE}`} onError={props.onError} />
+          )}
         </div>
       )}
     </div>
