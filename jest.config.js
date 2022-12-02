@@ -1,16 +1,16 @@
 module.exports = {
-  moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "json"],
+  moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'json'],
   transform: {
-    "^.+\\.(js|jsx)?$": "babel-jest",
-    "^.+\\.(ts|tsx)?$": "ts-jest",
+    '^.+\\.(js|jsx)?$': 'babel-jest',
+    '^.+\\.(ts|tsx)?$': 'ts-jest',
   },
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1",
+    '^@/(.*)$': '<rootDir>/$1',
   },
   testMatch: [
-    "<rootDir>/**/*.test.(js|jsx|ts|tsx)",
-    "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))",
+    '<rootDir>/**/*.test.(js|jsx|ts|tsx)',
+    '<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))',
   ],
-  transformIgnorePatterns: ["<rootDir>/node_modules/"],
-};
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+}

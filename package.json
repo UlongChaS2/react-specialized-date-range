@@ -1,10 +1,12 @@
 {
   "name": "react-range-date",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "description": "Range-date(double calendars) picker library for react",
   "scripts": {
-    "start": "npx webpack serve",
-    "webpack": "webpack",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "rollup": "rollup -c",
     "jest": "jest -c ./jest.config.js",
     "lint": "eslint './src/*.{ts,tsx,js,jsx}'",
@@ -12,9 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/David-Sungkyu-Kim/react-range-date.git"
+    "url": "git+https://https://github.com/UlongChaS2/react-specialized-date-range"
   },
-  "author": "David Kim",
+  "author": {
+    "name": "Jace Jung",
+    "email": "jace1803242@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "David Kim",
+      "email": "sungkyu.kim21@gmail.com"
+    }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/David-Sungkyu-Kim/react-range-date/issues"
@@ -32,10 +43,13 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^8.4.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@rollup/plugin-url": "^8.0.1",
+    "@svgr/rollup": "^6.5.1",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -57,13 +71,20 @@
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^29.2.2",
     "lint-staged": "^13.0.3",
+    "path-browserify": "^1.0.1",
     "prettier": "^2.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
-    "rollup": "^2.79.0",
-    "rollup-plugin-dts": "^4.2.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-dts": "^4.2.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-prettier": "^3.0.0",
+    "rollup-plugin-url": "^3.0.1",
     "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
@@ -71,12 +92,11 @@
     "ts-loader": "^9.3.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.2",
-    "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.0"
   },
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "module": "dist/cjs/index.js",
   "files": [
     "dist"
   ],
@@ -87,8 +107,24 @@
   "dependencies": {
     "@types/i18next": "^13.0.0",
     "@types/react-i18next": "^8.1.0",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "https-browserify": "^1.0.0",
     "i18next": "^22.0.4",
     "i18next-http-backend": "^2.0.0",
-    "react-i18next": "^12.0.0"
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "os": "^0.1.2",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "react-i18next": "^12.0.0",
+    "stream": "^0.0.2",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "webpack": "^5.75.0"
   }
 }
