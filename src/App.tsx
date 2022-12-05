@@ -1,11 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import DatePicker from './DatePicker'
-import './lang/i18n'
-
-import './assets/styles/index.css'
-import './assets/styles/initialize.css'
-import './assets/styles/datePicker.css'
 
 const datePickerProps = {
   width: '580px',
