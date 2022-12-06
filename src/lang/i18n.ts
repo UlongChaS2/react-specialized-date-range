@@ -5,7 +5,7 @@ import translationKo from './translation.ko.json'
 import translationEn from './translation.en.json'
 import translationJa from './translation.ja.json'
 import Backend from 'i18next-http-backend'
-import { ELanguage } from '../types/date'
+import { ELanguage } from '../@types/date'
 
 const resources = {
   ko: { translation: translationKo },

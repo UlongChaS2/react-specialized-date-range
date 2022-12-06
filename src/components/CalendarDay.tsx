@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { weekDays } from '../utils/constants/date'
 import { refer } from '../utils/dateOption'
 import { convertToDefaultFormat } from '../utils/dateFormat'
-import { EStandard, EType, ICalendarDayProps, IDay } from '../types/date'
+import { EStandard, EType, ICalendarDayProps, IDay } from '../@types/date'
 
 export default function CalendarDay({ standard, year, month, onError }: ICalendarDayProps) {
   const { t, i18n } = useTranslation()

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useDateContext } from '../hooks/useDateContext'
 import useDecade from '../hooks/useDecade'
 
-import { ICalendarProps } from '../types/date'
+import { ICalendarProps } from '../@types/date'
 import {
   checkFirstDateInDecade,
   checkLastDateInDecade,

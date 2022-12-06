@@ -1,4 +1,4 @@
-import { EStandard } from '../types/date'
+import { EStandard } from '../@types/date'
 
 export const refer = (standard: string) =>
   standard === EStandard.SINGLE

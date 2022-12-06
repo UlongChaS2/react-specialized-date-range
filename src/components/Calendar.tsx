@@ -3,7 +3,7 @@ import * as React from 'react'
 import CalendarDate from './CalendarDate'
 import CalendarHeader from './CalendarHeader'
 
-import { ICalendarDayParentProps } from '../types/date'
+import { ICalendarDayParentProps } from '../@types/date'
 
 export default function Calendar({ standard, onError }: ICalendarDayParentProps) {
   return (

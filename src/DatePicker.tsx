@@ -6,7 +6,7 @@ import DatePickerErrorBoundary from './components/DatePickerErrorBoundary'
 import DatePickerWrapper from './components/DatePickerWrapper'
 
 import './lang/i18n'
-import './index.css'
+import './index.scss'
 
 function DatePicker(props: any) {
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IDateContext, IDateContextValues } from '../types/dateContext'
+import { IDateContext, IDateContextValues } from '../@types/dateContext'
 import { initialDate, initialDateState } from '../utils/constants/initialContext'
 import {
   onChangeBiggerUnit,

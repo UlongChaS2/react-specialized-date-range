@@ -1,6 +1,6 @@
 {
   "name": "react-range-date",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Range-date(double calendars) picker library for react",
   "scripts": {
     "start": "webpack server",
@@ -29,12 +29,12 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/David-Sungkyu-Kim/react-range-date/issues"
+    "url": "https://https://github.com/UlongChaS2/react-specialized-date-range/issues"
   },
   "jest": {
     "testEnvironment": "jsdom"
   },
-  "homepage": "https://github.com/David-Sungkyu-Kim/react-range-date#readme",
+  "homepage": "https://https://github.com/UlongChaS2/react-specialized-date-range#readme",
   "devDependencies": {
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.5",
@@ -86,17 +86,12 @@
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
     "rollup": "^2.79.1",
-    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-css-only": "^4.3.0",
-    "rollup-plugin-dts": "^4.2.3",
-    "rollup-plugin-import-css": "^3.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-prettier": "^3.0.0",
-    "rollup-plugin-scss": "^3.0.0",
-    "rollup-plugin-styles": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-url": "^3.0.1",
     "sass": "^1.56.1",

@@ -1,5 +1,5 @@
 import i18n from '../lang/i18n'
-import { ELanguage, EUnit } from '../types/date'
+import { ELanguage, EUnit } from '../@types/date'
 import { months, thisDay, thisMonth, thisYear } from './constants/date'
 
 export const getWeekday = (year: number, month: number, day: number, locale: string) => {

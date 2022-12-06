@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { IDate } from '../../types/date'
-import { IDatePickerContextValues } from '../../types/dateContext'
+import { IDate } from '../../@types/date'
+import { IDatePickerContextValues } from '../../@types/dateContext'
 import { convertTitleToUnit, convertDateFormat, findSpecialCharacterStr } from '../dateFormat'
 import { thisDay, thisMonth, thisYear } from './date'
 

@@ -10,7 +10,7 @@ import {
 } from '../utils/dateFormat'
 import { months } from '../utils/constants/date'
 
-import { ICalendarProps } from '../types/date'
+import { ICalendarProps } from '../@types/date'
 import { useDatePickerOptionContext } from '../hooks/useDateOptionContext'
 
 export default function CalendarMonth({ standard }: ICalendarProps) {

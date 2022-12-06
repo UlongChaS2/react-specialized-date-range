@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IDatePickerContext, IDatePickerContextValues } from '../types/dateContext'
+import { IDatePickerContext, IDatePickerContextValues } from '../@types/dateContext'
 import { initialDateOptionState, initialDatePicker } from '../utils/constants/initialContext'
 
 export const DatePickerOptionContext = React.createContext<IDatePickerContext>(initialDatePicker)

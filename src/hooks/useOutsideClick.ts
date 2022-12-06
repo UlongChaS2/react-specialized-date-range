@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { EMode } from '../types/date'
+import { EMode } from '../@types/date'
 import { useDatePickerOptionContext } from './useDateOptionContext'
 
 export const useOutsideClick = () => {

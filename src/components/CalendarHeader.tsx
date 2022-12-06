@@ -9,7 +9,7 @@ import {
   convertToDefaultFormat,
 } from '../utils/dateFormat'
 import { getDatesDiff } from '../utils/dateOption'
-import { EDirection, EUnit, ICalendarProps } from '../types/date'
+import { EDirection, EUnit, ICalendarProps } from '../@types/date'
 
 export default function CalendarHeader({ standard }: ICalendarProps) {
   const { value: date, action } = useDateContext()

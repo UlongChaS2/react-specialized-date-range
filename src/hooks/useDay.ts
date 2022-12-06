@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { convertDateFormat, getWeekday } from '../utils/dateFormat'
-import { IDay } from '../types/date'
+import { IDay } from '../@types/date'
 
 interface IUseDayPrams {
   year: number

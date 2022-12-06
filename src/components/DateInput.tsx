@@ -4,7 +4,7 @@ import { useDateContext } from '../hooks/useDateContext'
 import { useTranslation } from 'react-i18next'
 
 import { convertToDefaultFormat, formattingNumToDate } from '../utils/dateFormat'
-import { EMode, EStandard, EType, IDateInputProps } from '../types/date'
+import { EMode, EStandard, EType, IDateInputProps } from '../@types/date'
 import { refer } from '../utils/dateOption'
 
 export default function DateInput({ standard, setIsActive, onError }: IDateInputProps) {

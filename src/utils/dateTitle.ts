@@ -1,4 +1,4 @@
-import { IDate } from '../types/date'
+import { IDate } from '../@types/date'
 
 export const changeMonth = (prevDate: IDate, arrow: string): IDate => {
   const num = arrow === 'left' ? -1 : 1
