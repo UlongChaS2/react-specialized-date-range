@@ -17,25 +17,24 @@ export interface IDay {
   weekday: string
 }
 
-export interface ICalendarDayParentProps {
-  standard: string
-  onError: (error: any, value: any) => void
-}
 export interface ICalendarProps {
   standard: string
 }
 
-export interface IDateInputProps extends ICalendarDayParentProps {
+export interface ICalendarDayParentsProps extends ICalendarProps {
+  onError: (error: any, value: any) => void
+}
+
+export interface IDateInputProps extends ICalendarDayParentsProps {
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>
   value?: string
 }
 
-export interface ICalendarDayProps extends ICalendarDayParentProps {
+export interface ICalendarDayProps extends ICalendarDayParentsProps {
   year: number
   month: number
   selectedDate: string
 }
-
 export enum EUnit {
   DAY = 'day',
   MONTH = 'month',

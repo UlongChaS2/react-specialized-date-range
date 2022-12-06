@@ -3,9 +3,9 @@ import * as React from 'react'
 import CalendarDate from './CalendarDate'
 import CalendarHeader from './CalendarHeader'
 
-import { ICalendarDayParentProps } from '../@types/date'
+import { ICalendarDayParentsProps } from '../@types/date'
 
-export default function Calendar({ standard, onError }: ICalendarDayParentProps) {
+export default function Calendar({ standard, onError }: ICalendarDayParentsProps) {
   return (
     <div className="calendarWrapper">
       <CalendarHeader standard={standard} />

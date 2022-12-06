@@ -7,9 +7,9 @@ import CalendarMonth from './CalendarMonth'
 import CalendarYear from './CalendarYear'
 import CalendarDecade from './CalendarDecade'
 
-import { EUnit, ICalendarDayParentProps } from '../@types/date'
+import { EUnit, ICalendarDayParentsProps } from '../@types/date'
 
-export default function CalendarDate({ standard, onError }: ICalendarDayParentProps) {
+export default function CalendarDate({ standard, onError }: ICalendarDayParentsProps) {
   const { value: date } = useDateContext()
   const { year, month, selectedDate } = date[standard]
 

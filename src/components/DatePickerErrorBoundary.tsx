@@ -19,9 +19,9 @@ export default function DatePickerErrorBoundary(props: any) {
         throw new Error('Set disabledDates according to the format you set.')
 
       // NOTE: Error 관리 - disabledStartDate를 value보다 크게 지정했을 때 error? 빈배열로?
-
       if (
         value[0] &&
+        value[0].length >= 10 &&
         convertToDefaultFormat(disabledDates[0], format) > convertToDefaultFormat(value[0], format)
       )
         throw new Error('Set value greater than disabledStartDate')
@@ -29,6 +29,7 @@ export default function DatePickerErrorBoundary(props: any) {
       // NOTE: Error 관리 - disabledEndDate를 endValue보다 작게 지정했을 때 error? 빈배열로?
       if (
         value[1] &&
+        value[1].length >= 10 &&
         convertToDefaultFormat(disabledDates[1], format) < convertToDefaultFormat(value[1], format)
       )
         throw new Error('Set value smaller than disabledEndDate')

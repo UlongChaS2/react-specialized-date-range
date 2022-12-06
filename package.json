@@ -104,8 +104,8 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.0"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.common.js",
+  "module": "dist/index.esm.js",
   "files": [
     "dist"
   ],

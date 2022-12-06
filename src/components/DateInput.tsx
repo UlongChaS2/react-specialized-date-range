@@ -65,7 +65,7 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
               )
             }
 
-            if (referDate) {
+            if (referDate && writeDate) {
               if (standard === EStandard.STARTDATE && writeDate > referDate) {
                 action.changeHighlightDate(standard, '', format, EType.INPUT)
                 throw new Error(`${t('error-message.smallThan')}`)
