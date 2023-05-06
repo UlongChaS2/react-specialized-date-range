@@ -48,11 +48,8 @@ export default function CalendarDay({ standard, year, month, onError }: ICalenda
           (!formattingDisabledDates[1] || selecteDay < formattingDisabledDates[1]))
       )
         return action.changeHighlightDate(standard, day, format, EType.CALENDAR)
-    } catch (error) {
-      console.error(error)
-      error instanceof Error &&
-        onError &&
-        onError(error.message as string, { standard, value: day })
+    } catch (e) {
+      e instanceof Error && onError && onError(e.message as string, { standard, value: day })
     }
   }
 
