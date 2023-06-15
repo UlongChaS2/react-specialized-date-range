@@ -67,6 +67,13 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
               ? convertToDefaultFormat(disabledDates[1], format)
               : ''
 
+            const rex = /^\d{4}-\d{2}-\d{2}$/
+
+            if (!rex.test(newDate)) {
+              action.changeHighlightDate(standard, '', format, EType.INPUT)
+              throw new Error(`${t('error-message.format', { format })}`)
+            }
+
             if (newDate && new Date(newDate).toString() === 'Invalid Date') {
               action.changeHighlightDate(standard, '', format, EType.INPUT)
               throw new Error(`${t('error-message.invalidDate', { label: translateLabel() })}`)

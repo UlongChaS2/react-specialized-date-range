@@ -4,7 +4,7 @@
   "description": "Range-date(double calendars) picker library for react",
   "scripts": {
     "start": "webpack server",
-    "build": "react-app-rewired build",
+    "build": "rollup -c rollup.config.js",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "rollup": "rollup -c",
@@ -104,12 +104,16 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.0"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "style": ".dist/assets/index.css",
+  "types": ".dist/index.d.ts",
   "files": [
+    "assets/*.css",
+    "lib",
+    "es",
     "dist"
   ],
-  "types": "dist/index.d.ts",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/ulongchas2"
   },

@@ -15,7 +15,7 @@ process.env.BABEL_ENV = 'production'
 
 export default [
   {
-    input: './src/index.ts',
+    input: './index.ts',
     output: [
       {
         file: pkg.main,
