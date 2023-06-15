@@ -2,6 +2,7 @@
   "startDate": "start date",
   "endDate": "end date",
   "error-message": {
+    "format": "Please keep the {{format}} format",
     "invalidDate": "Please enter a valid date for {{label}}",
     "disabledDate": "Enter a date in the active range at {{label}}",
     "smallThan": "The start date must be before the end date.",

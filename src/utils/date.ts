@@ -38,11 +38,12 @@ export const onChangeDate = (
   format: string,
   type: string,
 ): IDateContextValues => {
-  if (!str)
+  if (!str) {
     return {
       ...prevDate,
       [standard]: { ...prevDate[standard], selectedDate: '' },
     }
+  }
 
   if (str.length <= 9)
     return {

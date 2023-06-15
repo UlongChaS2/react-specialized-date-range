@@ -133,34 +133,68 @@ export const replaceOnlyNum = (value: string): string => {
   return value.replace(RegNotNum, '')
 }
 
-export const formattingNumToDate = (value: string, format: string): string => {
+export const formattingNumToDate = (value: string, format: string, textDate: string): string => {
   const onlyNum = replaceOnlyNum(value)
   const formatSeparator = findSpecialCharacterStr(format)
 
   let DataFormat: string = ''
   let RegDateFmt: RegExp | string = ''
 
-  if (checkYYYYMMDD(format)) {
-    if (onlyNum.length <= 6) {
-      DataFormat = `$1${formatSeparator}$2`
-      RegDateFmt = /([0-9]{4})([0-9]+)/
-    }
-    if (6 < onlyNum.length && onlyNum.length <= 8) {
-      DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`
-      RegDateFmt = /([0-9]{4})([0-9]{2})([0-9]+)/
-    }
-  } else {
-    if (onlyNum.length <= 4) {
-      DataFormat = `$1${formatSeparator}$2`
-      RegDateFmt = /([0-9]{2})([0-9]+)/
-    }
-    if (4 < onlyNum.length && onlyNum.length <= 8) {
-      DataFormat = `$1${formatSeparator}$2${formatSeparator}$3`
-      RegDateFmt = /([0-9]{2})([0-9]{2})([0-9]+)/
-    }
+  if (
+    onlyNum.length === 4 &&
+    value.length === 4 &&
+    textDate.length === 3 &&
+    textDate.substring(textDate.length - 1) !== formatSeparator &&
+    value.substring(0, 1) !== formatSeparator
+  ) {
+    DataFormat = `$1${formatSeparator}`
+    RegDateFmt = /([0-9]{4})/
+    return onlyNum.replace(RegDateFmt, DataFormat)
   }
 
-  return onlyNum.replace(RegDateFmt, DataFormat)
+  if (
+    onlyNum.length === 5 &&
+    value.length === 5 &&
+    textDate.length === 4 &&
+    textDate.substring(textDate.length - 1) !== formatSeparator &&
+    value.substring(0, 1) !== formatSeparator
+  ) {
+    DataFormat = `$1${formatSeparator}`
+    RegDateFmt = /([0-9]{4})/
+    return onlyNum.replace(RegDateFmt, DataFormat)
+  }
+
+  if (
+    onlyNum.length === 6 &&
+    value.length === 7 &&
+    textDate.length === 6 &&
+    textDate.substring(textDate.length - 1) !== formatSeparator
+  ) {
+    DataFormat = `$1${formatSeparator}$2${formatSeparator}`
+    RegDateFmt = /([0-9]{4})([0-9]{2})/
+    return onlyNum.replace(RegDateFmt, DataFormat)
+  }
+
+  if (
+    onlyNum.length === 7 &&
+    value.length === 8 &&
+    textDate.length === 7 &&
+    textDate.substring(textDate.length - 1) !== formatSeparator
+  ) {
+    DataFormat = `$1${formatSeparator}$2${formatSeparator}`
+    RegDateFmt = /([0-9]{4})([0-9]{2})/
+    return onlyNum.replace(RegDateFmt, DataFormat)
+  }
+
+  if (onlyNum.length > 8 || value.length > 10) return textDate
+
+  if (
+    value.substring(value.length - 1) === formatSeparator &&
+    textDate.substring(textDate.length - 1) !== formatSeparator
+  )
+    return value.slice(0, value.length - 1)
+
+  return value
 }
 
 export const floorToTens = (year: number): number => Math.floor(year / 10) * 10

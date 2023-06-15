@@ -2,6 +2,7 @@
   "startDate": "시작일",
   "endDate": "종료일",
   "error-message": {
+    "format": "{{format}} 포멧을 지켜주세요",
     "invalidDate": "{{label}}에 유효한 날짜를 적어주세요.",
     "disabledDate": "{{label}}에 활성 범위안의 날짜만 적어주세요.",
     "smallThan": "시작일은 종료일보다 이전이여야 합니다.",

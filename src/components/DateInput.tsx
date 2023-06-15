@@ -9,6 +9,7 @@ import { refer } from '../utils/dateOption'
 
 export default function DateInput({ standard, setIsActive, onError }: IDateInputProps) {
   const { t } = useTranslation()
+  const inputRef = React.useRef<any>(null)
   const { value: date, action } = useDateContext()
 
   const { value: options } = useDatePickerOptionContext()
@@ -28,12 +29,30 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
     date[standard] && setText(date[standard].selectedDate)
   }, [date[standard]])
 
+  const handleKeyDownDate = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      e.key === 'Backspace' &&
+      inputRef.current &&
+      inputRef.current.selectionStart === inputRef.current.selectionEnd
+    ) {
+      const cursorIndex = inputRef.current.selectionStart
+      if (text[text.length - 1] !== '-' && (cursorIndex === 8 || cursorIndex === 5)) {
+        e.preventDefault()
+
+        inputRef.current.setSelectionRange(
+          inputRef.current.selectionStart - 1,
+          inputRef.current.selectionStart - 1,
+        )
+      }
+    }
+  }
+
   const handleChangeDate = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget
 
       if (value.length <= 10) {
-        const newDate = formattingNumToDate(value, format)
+        const newDate = formattingNumToDate(value, format, text)
         setText(newDate)
         action.changeHighlightDate(standard, newDate, format, EType.INPUT)
 
@@ -100,12 +119,15 @@ export default function DateInput({ standard, setIsActive, onError }: IDateInput
 
       <div className="inputBasicWrapper">
         <input
+          ref={inputRef}
           role="input"
           className="inputValue"
           type="text"
+          inputMode="numeric"
           placeholder={placeholder}
           value={text || ''}
-          onChange={(e) => handleChangeDate(e)}
+          onChange={handleChangeDate}
+          onKeyDown={handleKeyDownDate}
           onClick={() => mode === EMode.BASIC && setIsActive(true)}
         />
       </div>

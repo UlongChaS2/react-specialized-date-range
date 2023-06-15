@@ -5,6 +5,7 @@ import DatePicker from './DatePicker'
 const datePickerProps = {
   width: '580px',
   mode: 'static',
+  // mode: 'basic',
   format: 'YYYY-MM-DD',
   value: ['', ''],
   disabledDates: ['1899-12-31', '2022-11-30'],

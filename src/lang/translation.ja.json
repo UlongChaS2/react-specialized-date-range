@@ -2,6 +2,7 @@
   "startDate": "開始日",
   "endDate": "終了日",
   "error-message": {
+    "format": "{{format}}形式を維持してください",
     "invalidDate": "{{label}}に有効な日付を記入してください。",
     "disabledDate": "{{label}}に有効な範囲の日付を書き留めます。",
     "smallThan": "開始日は終了日より前でなければなりません。",
