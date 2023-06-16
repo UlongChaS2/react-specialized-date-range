@@ -5,10 +5,10 @@ interface IUseYearPrams {
 }
 
 export default function useYear({ year }: IUseYearPrams) {
-  const [years, setYears] = React.useState<Array<number>>()
+  const [years, setYears] = React.useState<Array<number>>([])
 
   React.useLayoutEffect(() => {
-    const yearsArr = []
+    const yearsArr: number[] = []
     for (let i = -1; i < 11; i++) {
       yearsArr.push(Number(String(year).slice(0, 3) + 0) + i)
     }

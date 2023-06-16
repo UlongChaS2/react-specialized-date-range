@@ -24,7 +24,7 @@ export default function useDay({ year, month, locale, reorderWeekDays, format }:
 
     const paddingDays = reorderWeekDays.indexOf(dayShortStr)
 
-    const daysArr = []
+    const daysArr: any = []
     for (let i = 1; i <= 42; i++) {
       if (i > paddingDays && i <= lastDayOfMonth + paddingDays) {
         const dateStr = convertDateFormat(year, month, i - paddingDays, format)
